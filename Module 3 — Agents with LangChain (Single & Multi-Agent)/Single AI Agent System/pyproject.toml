@@ -1,0 +1,29 @@
+[project]
+name = "single-ai-agent-system"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chromadb>=1.5.9",
+    "ddgs>=9.16.0",
+    "faiss-cpu>=1.15.1",
+    "ipykernel>=7.4.0",
+    "langchain>=1.4.3",
+    "langchain-community>=0.4.2",
+    "langchain-core>=1.6.6",
+    "langchain-google-genai>=4.4.0",
+    "langchain-groq>=1.1.3",
+    "langchain-huggingface>=1.2.2",
+    "langchain-openai>=1.6.7",
+    "langchain-tavily>=0.2.18",
+    "langgraph>=1.2.12",
+    "langgraph-checkpoint>=4.2.0",
+    "openai>=3.24.0",
+    "python-dotenv>=1.2.4",
+    "requests>=2.34.2",
+    "sentence-transformers>=6.1.0",
+    "streamlit>=1.65.0",
+    "tavily-python>=0.8.4",
+    "transformers>=5.18.0",
+]

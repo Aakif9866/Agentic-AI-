@@ -1,0 +1,44 @@
+this module is completely theory
+it focuses on how we went from gen ai -> ai agents -> agentic ai 
+
+
+a detailed example of agentic ai  
+different concpets and terms involved
+basics and limitations 
+
+topics discussed :
+- guardrails , HITL (human in the loop)
+- reasoning,adaptability of ai agents 
+- goal based approach 
+- context awareness
+- external tools (for tool call , interntet, external db)
+
+components of agentic ai:
+Brain :LLM,
+Orchestrator :  Framework(Crew AI, Langgraph, Auto gen,N8N etc) 
+Memory : 
+Supervisor : Guardrails enforcement
+Tools : many many (check ai agents tool catalog github)
+
+complete architecture :
+
+                 ┌──────────────────┐
+                 │    Guardrails    │
+                 │ Safety / Policy  │
+                 │ Validation / ACL │
+                 └────────┬─────────┘
+                          │
+        ┌─────────────────▼─────────────────┐
+        │           Orchestrator            │
+        │  controls the agent's workflow    │
+        └───────┬──────────┬─────────┬──────┘
+                │          │         │
+           ┌────▼───┐ ┌────▼────┐ ┌─▼────────┐
+           │ Brain  │ │ Memory  │ │Supervisor│
+           │  LLM   │ │         │ │          │
+           └────┬───┘ └─────────┘ └────┬─────┘
+                │                      │
+                └──────────┬───────────┘
+                           ▼
+                         Tools
+

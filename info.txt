@@ -1,0 +1,35 @@
+                 AI ENGINEER
+                     │
+        ┌────────────┴────────────┐
+        │                         │
+   AI/ML FOUNDATIONS        SOFTWARE ENGINEERING
+        │                         │
+        ├── LLM fundamentals      ├── Python
+        ├── Embeddings            ├── APIs
+        ├── Transformers          ├── Databases
+        ├── Tokenization          ├── Docker
+        ├── Evaluation            ├── Testing
+        └── Fine-tuning           └── Cloud
+                  │
+                  ▼
+             LLM APPLICATIONS
+                  │
+        ┌─────────┴─────────┐
+        │                   │
+       RAG                Agents
+        │                   │
+        └─────────┬─────────┘
+                  ▼
+              LangGraph
+                  │
+        ┌─────────┼─────────┐
+        ▼         ▼         ▼
+      Tools     Memory     HITL
+        │         │         │
+        └─────────┼─────────┘
+                  ▼
+             Production
+                  │
+        ┌─────────┼─────────┐
+        ▼         ▼         ▼
+    Evaluation  Observability  Deployment

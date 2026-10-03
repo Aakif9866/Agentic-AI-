@@ -1,0 +1,19 @@
+[project]
+name = "multi-agent-ai-system"
+version = "0.1.0"
+description = "Multi-agent research assistant: search, read, write, critique"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "beautifulsoup4>=4.15.0",
+    "groq>=0.37.1",
+    "ipykernel>=7.4.0",
+    "langchain>=1.4.3",
+    "langchain-core>=1.6.6",
+    "langchain-groq>=1.1.3",
+    "langchain-tavily>=0.2.18",
+    "langgraph>=1.2.12",
+    "python-dotenv>=1.2.4",
+    "requests>=2.34.2",
+    "streamlit>=1.65.0",
+]

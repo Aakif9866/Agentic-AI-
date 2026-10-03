@@ -1,0 +1,182 @@
+LEARN LATER — AFTER THE AGENTIC AI COURSE
+
+1. LLM FUNDAMENTALS
+- Transformers and attention
+- Tokenization and context windows
+- Embeddings
+- Temperature, sampling, and decoding
+- Function/tool calling
+- Structured outputs
+- Model selection and trade-offs
+- Open-source LLMs and local inference
+
+2. ADVANCED RAG
+- Document parsing and preprocessing
+- Chunking strategies
+- Metadata filtering
+- Hybrid search
+- Reranking
+- Query rewriting
+- Multi-query retrieval
+- Contextual retrieval
+- Graph RAG
+- Multimodal RAG
+
+3. LLM / RAG EVALUATION
+- Golden datasets
+- Evaluation datasets
+- LLM-as-a-judge
+- Faithfulness
+- Relevance
+- Answer correctness
+- Retrieval evaluation
+- Agent trajectory evaluation
+- Regression testing for LLM applications
+- Evaluation pipelines
+
+4. AGENT ENGINEERING
+- Agent planning patterns
+- Tool-use patterns
+- Reflection and self-correction
+- Agent memory design
+- Multi-agent architecture patterns
+- Agent reliability
+- Preventing infinite loops
+- Tool failure handling
+- Agent security
+
+5. PRODUCTION AI ENGINEERING
+- Rate limiting
+- Retries and exponential backoff
+- Timeouts
+- Queues and background jobs
+- Caching
+- Redis
+- Database connection pooling
+- Secrets management
+- Logging
+- Monitoring
+- Error tracking
+- Cost optimization
+- API security
+
+6. LLMOPS
+- Prompt/version management
+- Model/version management
+- Experiment tracking
+- Tracing
+- Observability
+- Online evaluation
+- Offline evaluation
+- A/B testing
+- Production feedback loops
+
+7. AI SECURITY
+- Prompt injection
+- Indirect prompt injection
+- Data leakage
+- Jailbreaks
+- Tool abuse
+- Excessive agent permissions
+- Secure tool design
+- Authentication and authorization
+- PII protection
+
+8. ML FUNDAMENTALS
+- Supervised learning
+- Unsupervised learning
+- Classification
+- Regression
+- Clustering
+- Feature engineering
+- Model evaluation
+- Overfitting
+- Cross-validation
+- Basic statistics and probability
+
+9. DEEP LEARNING
+- Neural networks
+- Backpropagation
+- Optimization
+- CNNs
+- Sequence models
+- Transformers
+- PyTorch
+- Training and fine-tuning models
+
+10. MODEL CUSTOMIZATION
+- Fine-tuning
+- Instruction tuning
+- LoRA / QLoRA
+- PEFT
+- Dataset preparation
+- Synthetic data
+- Quantization
+- Model evaluation after fine-tuning
+
+11. DATA ENGINEERING FOR AI
+- ETL / ELT
+- Data cleaning
+- Data pipelines
+- Data validation
+- Batch vs streaming
+- Data warehouses
+- Data lakes
+- Feature/data stores
+
+12. ADVANCED VECTOR / SEARCH SYSTEMS
+- Vector databases
+- Approximate nearest-neighbor search
+- HNSW
+- BM25
+- Hybrid retrieval
+- Search ranking
+- Elasticsearch / OpenSearch
+
+13. CLOUD & INFRASTRUCTURE
+- AWS fundamentals
+- Docker deeper
+- Kubernetes basics
+- CI/CD
+- Infrastructure as Code
+- Cloud networking
+- Serverless architecture
+- GPU infrastructure
+- Autoscaling
+
+14. SOFTWARE ENGINEERING
+- Clean architecture
+- SOLID
+- Design patterns
+- Distributed systems
+- System design
+- API design
+- Testing strategies
+- Performance engineering
+- Security engineering
+
+15. ADVANCED AI SYSTEM DESIGN
+- Design an end-to-end AI product
+- AI system architecture
+- Agent + RAG architecture
+- Event-driven AI systems
+- Real-time AI systems
+- Human-in-the-loop systems
+- Fault-tolerant AI systems
+- Cost-aware AI architecture
+
+16. BUILD AFTER LEARNING
+- Production RAG application
+- RAG evaluation platform
+- Tool-using agent
+- Multi-agent system
+- AI research assistant
+- AI coding assistant
+- Production-grade AI SaaS
+- End-to-end AI system with evaluation + observability + deployment
+
+GOAL:
+Move from:
+" I can build an agent with LangGraph "
+to:
+" I can design, evaluate, secure, deploy, monitor, and improve a production AI system."

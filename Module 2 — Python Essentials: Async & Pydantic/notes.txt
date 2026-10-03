@@ -1,0 +1,11 @@
+simple agents : can do just 1 task
+
+complex agents : multiple agents will be created 
+                - these work either independently or in a dependent manner 
+                - so basically running parallel agents to reduce the time
+                - 
+
+
+basically the difference between aynchronous and syncrhonous progamming
+and how for parallel agents how async programming is better
+

@@ -1,0 +1,26 @@
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Office lock files
+~$*
+.~*
+
+# Python
+__pycache__/
+*.py[oc]
+.venv/
+venv/
+*.egg-info
+.ipynb_checkpoints/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Local data
+chroma_db/
+*.sqlite
+*.db
