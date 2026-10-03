@@ -130,3 +130,13 @@ Python · LangChain · LangGraph · Pydantic · FastAPI · Streamlit · ChromaDB
 - [x] Module 3 — Single & Multi-Agent with LangChain
 - [ ] Modules 4–11 — LangGraph, chatbot, RAG, HITL, deployment, projects
 - [ ] Modules 12–18 — MCP, guardrails, evals, advanced RAG, serverless, FDE
+
+---
+
+## Credits
+
+Concepts and projects in this repo are based on **Boktiar Ahmed Bappy's** Agentic AI course, which explains all of this material.
+
+- GitHub: [github.com/entbappy](https://github.com/entbappy)
+- YouTube: [@dswithbappy](https://www.youtube.com/@dswithbappy)
+- Course playlist: [Complete Agentic AI Course](https://www.youtube.com/watch?v=8pE1krNmqCo&list=PLkz_y24mlSJZ9SFlc9O4Q4Grli5SQDbrB)
