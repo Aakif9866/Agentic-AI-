@@ -140,5 +140,10 @@ A retry loop beats a fixed `sleep 5` — containers don't boot in a predictable 
 
 ## Honest status
 
-- **Verified for real:** `/health`, token streaming on `/chat`, memory across calls on one `thread_id`, `/threads` listing — all tested against a live uvicorn server.
-- **Not verified:** the Docker build and the CI workflow. Docker wasn't running on this machine, so `docker build` was never executed. The Dockerfile follows standard practice but treat the first `docker build` as untested.
+**Verified for real:**
+
+- `/health`, token streaming on `/chat`, memory across calls on one `thread_id`, `/threads` — against a live uvicorn server.
+- `docker build -t agentic-chatbot:ci .` → **succeeds**.
+- `docker run -p 8901:8000 -e GROQ_API_KEY=...` → container serves `/health` → `{"ok":true}`, and `/chat` returns a real streamed answer **from inside the container**. So the image, the dependency install, and the `${PORT}` command all work.
+
+**Not verified:** the GitHub Actions workflow itself has never run, because it isn't at the repo root yet (see above). Its two steps — `docker build` and polling `/health` — are exactly what was just confirmed locally, so the risk is low, but the YAML is untested.

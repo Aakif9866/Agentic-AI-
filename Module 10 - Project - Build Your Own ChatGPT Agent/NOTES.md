@@ -140,7 +140,9 @@ Tested against a live server (`uvicorn api:app`), real Groq calls:
 
 Row 11 is the one that proves HITL is real rather than cosmetic — the text that "sent" was the human's, not the model's.
 
-**Not verified:** `docker build` (Docker wasn't running on this machine) and the Streamlit UI interactively — it compiles, but no clicks were tested.
+**Also verified since:** the Streamlit UI **boots clean** — `streamlit run ui_streamlit.py --server.headless true` returns HTTP 200 with no errors in the log. Module 9's Dockerfile (the same pattern this one uses) builds and serves correctly in a real container.
+
+**Still not verified:** this module's own `docker build` — it adds a step that pre-downloads the embedding model, which Module 9's image doesn't have. And the Streamlit UI has never been *clicked* through; only its startup is confirmed.
 
 ---
 
