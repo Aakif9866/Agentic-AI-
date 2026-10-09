@@ -1,0 +1,36 @@
+# NOTE: GitHub only runs workflows found at the REPOSITORY ROOT in .github/workflows/.
+# This copy lives inside the module as study material. To actually run it, move it to
+# <repo root>/.github/workflows/deploy.yml and set `working-directory` below.
+
+name: Build and smoke-test
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "Module 9 - Deployment (Docker, CI-CD, Render)"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t agentic-chatbot:ci .
+
+      - name: Smoke test /health
+        run: |
+          docker run -d -p 8000:8000 \
+            -e GROQ_API_KEY=${{ secrets.GROQ_API_KEY }} \
+            --name app agentic-chatbot:ci
+          for i in $(seq 1 15); do
+            curl -sf http://localhost:8000/health && break
+            echo "waiting for app ($i)..."; sleep 2
+          done
+          curl -sf http://localhost:8000/health
+
+      - name: Show logs on failure
+        if: failure()
+        run: docker logs app

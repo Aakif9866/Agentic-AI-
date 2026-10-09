@@ -24,3 +24,8 @@ venv/
 chroma_db/
 *.sqlite
 *.db
+
+# Vector stores
+faiss_db/
+*.db-shm
+*.db-wal

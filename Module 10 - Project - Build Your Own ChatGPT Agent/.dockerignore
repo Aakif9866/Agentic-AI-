@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+chatbot.db
+faiss_db/
+.git/
+NOTES.md
