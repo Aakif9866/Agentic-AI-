@@ -1,0 +1,11 @@
+=== Module 18 — loop caps (pure logic)
+commit: ca9f93b
+UTC   : 2026-10-10T09:46:38Z
+cmd   : uv run python test_caps.py
+----------------------------------------------------------------------
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 5682.07it/s]
+MAX_RETRIES=2  MAX_REWRITE_TRIES=2
+all 11 cap assertions passed - both loops bounded, and independently
+
+[exit 0]
+

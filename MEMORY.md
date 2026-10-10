@@ -29,7 +29,13 @@
 | **21 FDE case study** | ✅ written | `fde-case-study.md` (§5 deploy is the one open gap), `NOTES.md` |
 | 17, 20, 22 | 📋 **not built** | `README.md` build spec only. 17 needs an OpenAI key to be meaningful; 20 needs Pinecone; 22 needs Neo4j **and** a vision model |
 
-**Docs at root:** `README.md` (beginner roadmap) · `LEARNPLAN.md` (how to study) · `AGENT_RULES.md` (stack + pitfalls) · `OpenAI.md` (provider switch) · this file.
+**Docs at root:** `README.md` (beginner roadmap) · `LEARNPLAN.md` (how to study) · `AGENT_RULES.md` (stack + pitfalls) · `OpenAI.md` (provider switch) · `VERIFICATION.md` (**proof + key matrix + costs**) · `.env.example` (every key annotated) · `verify.sh` (regenerate proofs into `proofs/`) · this file.
+
+**Keys:** `GROQ_API_KEY` is the only one truly needed (modules 4–14, 16, 18, 19). `TAVILY_API_KEY` for 3, 7, 10, 11, 13, 18. Optional: `LANGSMITH_API_KEY` (6, 10), `OPENWEATHER_API_KEY` (11, degrades by design). Not-yet-built: `PINECONE_API_KEY` (20), `NEO4J_*` (22). Embeddings are local MiniLM — no key.
+
+**Cost:** 252 counted model calls to run every built module once ≈ **$0.09** on a mini-tier model, ~$0.91 with 10x debugging headroom. OpenAI's $5 minimum is far more than enough. Groq free tier covers everything.
+
+**DeepSeek:** `langchain-deepseek` v1.1.1 exists and `init_chat_model("deepseek:deepseek-chat")` resolves (fails on missing key, not unknown provider). Has `bind_tools` + `with_structured_output`. **No embeddings API** — pair with local MiniLM. Untested beyond wiring.
 
 ---
 

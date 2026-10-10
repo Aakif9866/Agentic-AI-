@@ -10,7 +10,7 @@
 ![uv](https://img.shields.io/badge/uv-managed-DE5FE9?style=for-the-badge)
 ![Groq](https://img.shields.io/badge/Groq-free_tier-F55036?style=for-the-badge)
 
-![Built](https://img.shields.io/badge/Modules_4–19,_21-✅_built-2EA043?style=flat-square)
+![Built](https://img.shields.io/badge/Modules_4–19,_21-✅_built_&_verified-2EA043?style=flat-square)
 ![Planned](https://img.shields.io/badge/Modules_17,_20,_22-📋_planned-8957E5?style=flat-square)
 ![Every script runs](https://img.shields.io/badge/every_script-actually_run-0969DA?style=flat-square)
 
@@ -148,11 +148,18 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 **2. Get free API keys:**
 
-| Key | Where | Needed for |
+| Key | Where | Needed by |
 |:--|:--|:--|
-| `GROQ_API_KEY` | [console.groq.com](https://console.groq.com) | 🔴 **everything** |
-| `TAVILY_API_KEY` | [tavily.com](https://tavily.com) | web search (M7+) |
-| `LANGSMITH_API_KEY` | [smith.langchain.com](https://smith.langchain.com) | optional tracing |
+| **`GROQ_API_KEY`** | [console.groq.com](https://console.groq.com) | 🔴 **4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 18, 19** — free tier |
+| **`TAVILY_API_KEY`** | [tavily.com](https://tavily.com) | 3, 7, 10, 11, 13, 18 — free tier |
+| `LANGSMITH_API_KEY` | [smith.langchain.com](https://smith.langchain.com) | 6, 10 — *optional*, tracing only |
+| `OPENWEATHER_API_KEY` | [openweathermap.org](https://openweathermap.org/api) | 11 — *optional*, degrades to search |
+| `PINECONE_API_KEY` | [pinecone.io](https://pinecone.io) | 20 *(not built)* |
+| `NEO4J_URI/_USERNAME/_PASSWORD` | [neo4j.com/aura](https://neo4j.com/aura) | 22 *(not built)* |
+
+Copy [`.env.example`](./.env.example) into each module folder as `.env` and fill in only what that module needs. **Embeddings need no key** — Modules 8/10/18 use local MiniLM.
+
+> 💰 **Cost:** Groq's free tier runs everything here. If you'd rather use OpenAI, a full pass of every module is about **$0.09** on `gpt-4o-mini` (252 counted model calls) — so the usual **$5 minimum top-up is far more than enough**. Details and caveats in [VERIFICATION.md §4](./VERIFICATION.md#4--what-it-costs-to-run).
 
 **3. Run any module** — each is its own self-contained project:
 
@@ -175,6 +182,7 @@ Put your keys in a `.env` inside the module folder. `.env` is gitignored everywh
 | 🎓 **[LEARNPLAN.md](./LEARNPLAN.md)** | **Now.** How to actually learn this: the run → break → predict loop, how to read a `NOTES.md`, realistic pacing, break-it experiments per module, an error decoder. |
 | 🛠️ **[AGENT_RULES.md](./AGENT_RULES.md)** | When building Modules 17–22. Pinned stack + every pitfall already hit. Paste it *with* a module's README when asking a coding agent to build it. |
 | 🧠 **[MEMORY.md](./MEMORY.md)** | **Starting a fresh chat?** Paste this + `AGENT_RULES.md` and an agent can continue without re-reading the repo: module status, the pitfall list, remaining work prioritised, and the exact checklist for when an OpenAI key arrives. |
+| ✅ **[VERIFICATION.md](./VERIFICATION.md)** | **Proof it runs.** Real captured output from every built module, what is honestly *not* verified, the full key matrix, and what it costs (~$0.09 a full pass). Regenerate with `./verify.sh`. |
 | 🔄 **[OpenAI.md](./OpenAI.md)** | If you have an OpenAI key. Switching provider is one env var; it also *removes* the `json_mode` workaround and the parallel-tool-call limitation. Includes cost warnings and an honest verification table. |
 
 Every built module also has a **`NOTES.md`** written for a beginner — what each file does, why, and a "Gotchas we hit" section at the end. **Read the gotchas twice:** once now, once when you're stuck.
