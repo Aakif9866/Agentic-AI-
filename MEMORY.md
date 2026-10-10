@@ -174,6 +174,8 @@ Default CI is free and secretless by design, so it runs on forks and can't bill 
 
 **Still owed: Module 3 only.** It is the heaviest single run in the repo (a full multi-agent pipeline, ~2,600 tokens) and the day's budget was down to 5 tokens. Nothing is wrong with the code — the same run passed by hand on 2026-10-10. Re-run `./verify.sh --paid --module 3` first thing after the quota resets, before spending the day's tokens on anything else.
 
+`proofs/module-3.txt` is committed but is **not a proof** — it is the 429 transcript (`Used 199998, Requested 1715`, dying in step 1 of 4). It is in the repo as a record of where the budget ran out; the next successful run overwrites it.
+
 ### ⚠️ A check that cannot fail is worth nothing — the `api` helper proved it
 
 First version of `api()` ended on `echo`, so `bash -c` returned the exit status of *that*, not of the request. Module 10 printed `curl: (7) Failed to connect` and the script still reported **PASS**. Now: the `/health` poll `exit 1`s if it never answers (90 tries × 2s — Module 10 loads torch and FAISS before it serves), and the request uses `curl --fail-with-body ... || exit 1`. The rerun correctly reported FAIL. **Check the failure path of any new check before trusting its PASS.**

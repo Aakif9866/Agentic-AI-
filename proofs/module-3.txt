@@ -1,0 +1,100 @@
+=== Module 3 — multi-agent pipeline
+commit: 231546b
+UTC   : 2026-10-10T12:57:12Z
+dir   : Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System
+cmd   : uv run python main.py
+----------------------------------------------------------------------
+
+=== 1/4 SEARCH: The impact of AI on the job market in 2026 ===
+Traceback (most recent call last):
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/main.py", line 6, in <module>
+    run_research_pipeline(topic)
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/src/pipelines/pipeline.py", line 51, in run_research_pipeline
+    r["search"] = search_step(topic)
+                  ^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/src/pipelines/pipeline.py", line 15, in search_step
+    result = build_search_agent().invoke({
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/runnables/retry.py", line 201, in invoke
+    return self._call_with_config(self._invoke, input, config, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 2301, in _call_with_config
+    context.run(
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/runnables/config.py", line 526, in call_func_with_variable_args
+    return func(input, **kwargs)  # type: ignore[call-arg]
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/runnables/retry.py", line 186, in _invoke
+    for attempt in self._sync_retrying(reraise=True):
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 438, in __iter__
+    do = self.iter(retry_state=retry_state)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 371, in iter
+    result = action(retry_state)
+             ^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 393, in <lambda>
+    self._add_action_func(lambda rs: rs.outcome.result())
+                                     ^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/anaconda3/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/anaconda3/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/runnables/retry.py", line 188, in _invoke
+    result = super().invoke(
+             ^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 6014, in invoke
+    return self.bound.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 3913, in invoke
+    for chunk in self.stream(
+                 ^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langgraph/pregel/main.py", line 2967, in stream
+    for _ in runner.tick(
+             ^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langgraph/pregel/_runner.py", line 207, in tick
+    run_with_retry(
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langgraph/pregel/_retry.py", line 617, in run_with_retry
+    return task.proc.invoke(task.input, config)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 707, in invoke
+    input = context.run(step.invoke, input, config, **kwargs)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langgraph/_internal/_runnable.py", line 447, in invoke
+    ret = self.func(*args, **kwargs)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain/agents/factory.py", line 1536, in model_node
+    model_response = _execute_model_sync(request)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain/agents/factory.py", line 1506, in _execute_model_sync
+    output = model_.invoke(messages)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/runnables/base.py", line 6014, in invoke
+    return self.bound.invoke(
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py", line 488, in invoke
+    self.generate_prompt(
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py", line 1877, in generate_prompt
+    return self.generate(prompt_messages, stop=stop, callbacks=callbacks, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py", line 1684, in generate
+    self._generate_with_cache(
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_core/language_models/chat_models.py", line 2022, in _generate_with_cache
+    result = self._generate(
+             ^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/langchain_groq/chat_models.py", line 627, in _generate
+    response = self.client.create(messages=message_dicts, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/groq/resources/chat/completions.py", line 461, in create
+    return self._post(
+           ^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/groq/_base_client.py", line 1242, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Multi-Agent AI System/.venv/lib/python3.12/site-packages/groq/_base_client.py", line 1044, in request
+    raise self._make_status_error_from_response(err.response) from None
+groq.RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01k0rjhjywep1rk67w4wesmq7q` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199998, Requested 1715. Please try again in 12m20.016s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}
+During task with name 'model' and id '3e6eb3a6-25f8-b2ca-4335-db808f24308c'
+
+[exit 1]
+
