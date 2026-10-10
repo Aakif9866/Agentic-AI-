@@ -76,6 +76,28 @@ IDENTICAL CLASS : True
 
 Use `ChatGroq` directly only when you need a Groq-specific constructor argument that the factory can't pass through.
 
+### 1b. Gemini: `ListModels` lists models your key CANNOT call
+
+`gemini-2.0-flash` and `gemini-2.5-flash` both return:
+
+```
+404 NOT_FOUND: This model is no longer available to new users.
+Please update your code to use models/gemini-3.8-flash
+```
+
+…**and both appear in the `/v1beta/models` listing.** The listing shows what exists, not what your key may use — new keys are cut off from older models. **Only a real `generateContent` call proves availability.**
+
+Verified working: **`gemini-3.8-flash`**. Cheaper variants exist (`gemini-3.5-flash-lite`, `gemini-flash-lite-latest`) — probe before trusting.
+
+### 1c. `GEMINI_API_KEY` is not `GOOGLE_API_KEY`
+
+Google issues the key as `GEMINI_API_KEY`; `langchain-google-genai` reads `GOOGLE_API_KEY`. Set only the former and you get "missing credentials" while looking straight at a valid key. Bridge it:
+
+```python
+if os.getenv("GEMINI_API_KEY") and not os.getenv("GOOGLE_API_KEY"):
+    os.environ["GOOGLE_API_KEY"] = os.environ["GEMINI_API_KEY"]
+```
+
 ### 2. `with_structured_output()` fails on gpt-oss — use `json_mode`
 
 The default (tool-calling) mode errors with `Tool choice is required, but model did not call a tool`, consistently, on short prompts with simple schemas. Fix:
@@ -84,10 +106,12 @@ The default (tool-calling) mode errors with `Tool choice is required, but model 
 llm.with_structured_output(MySchema, method="json_mode")
 ```
 
+**Only Groq needs this.** Measured 2026-10-10: DeepSeek (`deepseek-chat`) and Gemini (`gemini-3.8-flash`) both support **native** structured output, so the workaround is Groq-specific. Module 17's `gateway.structured()` picks the right method per provider automatically.
+
 `json_mode` has **two requirements you must satisfy yourself**, because it only guarantees valid JSON — it knows nothing about your Pydantic schema:
 
 1. The word **"json"** must literally appear in your prompt, or Groq rejects the request.
-2. You must **spell out the exact field names**, or the model invents its own and validation fails. It returned `{"severity": ...}` when the schema wanted `level`.
+2. You must **spell out the exact shape — names AND types**, or validation fails. Two real failures: it returned `{"severity": ...}` when the schema wanted `level`, and `{"confidence": 0.99}` for an `int` field because "confidence" reads as a probability. Module 17's `_json_hint()` derives names, types and enum values from the Pydantic schema automatically.
 
 ```python
 llm.with_structured_output(Priority, method="json_mode").invoke(

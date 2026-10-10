@@ -27,7 +27,8 @@
 | **18 CRAG + Self-RAG** | ✅ verified | `crag.py`, `self_rag.py`, `kb.py`, `test_caps.py`, `COMPARISON.md`, `NOTES.md` |
 | **19 Self-correcting app** | ✅ verified | `graph.py`, `api.py`, `metrics.py`+`metrics.json`, Dockerfile (**container run**), `NOTES.md` |
 | **21 FDE case study** | ✅ written | `fde-case-study.md` (§5 deploy is the one open gap), `NOTES.md` |
-| 17, 20, 22 | 📋 **not built** | `README.md` build spec only. 17 needs an OpenAI key to be meaningful; 20 needs Pinecone; 22 needs Neo4j **and** a vision model |
+| **17 LLM Gateway** | ✅ verified | `gateway.py`, `probe_providers.py`, `test_gateway.py` (26 pass, 0 calls), `live_check.py`, `NOTES.md` — Groq+DeepSeek+Gemini, real fallback proven |
+| 20, 22 | 📋 **not built** | `README.md` build spec only. 17 needs an OpenAI key to be meaningful; 20 needs Pinecone; 22 needs Neo4j **and** a vision model |
 
 **Docs at root:** `README.md` (beginner roadmap) · `LEARNPLAN.md` (how to study) · `AGENT_RULES.md` (stack + pitfalls) · `OpenAI.md` (provider switch) · `VERIFICATION.md` (**proof + key matrix + costs**) · `.env.example` (every key annotated) · `verify.sh` (regenerate proofs into `proofs/`) · this file.
 
@@ -126,7 +127,13 @@ Checklist, in order:
 | 9 | Move both `evals.yml`/`deploy.yml` to **repo root** `.github/workflows/` | low | they don't run where they sit |
 | 10 | Module 10's weak harness rows | low | Verification, Observability, Context trimming, thread deletion — all in `HARNESS_REVIEW.md` §11 |
 
-**Done since:** 18, 19, 21. **Remaining:** 17 (needs OpenAI key), 20 (Pinecone), 22 (Neo4j + vision model — check Groq has one first).
+**Keys now configured:** Groq ✅, DeepSeek ✅ (was 402, now topped up ~$2), Gemini ✅. Still missing: `PINECONE_API_KEY` (M20), `NEO4J_*` (M22).
+
+**Measured provider capabilities** (Module 17's probe, re-run it rather than trusting this): groq=chat/tools/json_mode but NO native structured output; deepseek=all four; gemini=all four + vision. Verified Gemini model is `gemini-3.8-flash` — 2.0/2.5 are 404 for new keys.
+
+**Budget: ~₹500/month.** Default gateway order `groq,deepseek,gemini` = free, cheapest paid, then most capable. Mocked tests cost nothing; live checks are deliberately 4 calls.
+
+**Done since:** 17, 18, 19, 21. **Remaining:** 17 (needs OpenAI key), 20 (Pinecone), 22 (Neo4j + vision model — check Groq has one first).
 
 ---
 
