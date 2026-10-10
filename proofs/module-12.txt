@@ -1,0 +1,31 @@
+=== Module 12 — MCP round-trip
+commit: afa9253
+UTC   : 2026-10-10T12:06:32Z
+dir   : Module 12 - MCP (Model Context Protocol)
+cmd   : uv run python client.py
+----------------------------------------------------------------------
+Processing request of type ListToolsRequest
+Processing request of type CallToolRequest
+[server] stored note #1
+Processing request of type CallToolRequest
+[server] stored note #2
+Processing request of type CallToolRequest
+Tools discovered over MCP: ['add_note', 'search_notes']
+
+> Save a note: the Goa trip budget is 15000 rupees.
+  tools used: ['add_note']
+  Your note has been saved. Let me know if you’d like to add anything else or retrieve it later!
+
+> Save a note: remember to renew my passport in March.
+  tools used: ['add_note']
+  Your note has been saved! Let me know if you’d like to add anything else or retrieve it later.
+
+> Search my notes for anything about the budget.
+  tools used: ['search_notes']
+  Here’s what I found in your notes about the budget:
+
+- The Goa trip budget is 15,000 rupees.
+
+
+[exit 0]
+

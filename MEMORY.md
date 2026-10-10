@@ -166,6 +166,23 @@ Default CI is free and secretless by design, so it runs on forks and can't bill 
 
 **The secret scan is deliberately strict** (no allowlist). It caught my own dummy `gsk_invalid_...` in `live_check.py`; the fix was renaming the dummy, not weakening the rule.
 
+## 6e. `proofs/` — transcripts for 13 of 16 built modules (2026-10-10)
+
+`./verify.sh` now writes a `proofs/module-N.txt` per module, each stamped with the commit SHA, UTC time, the directory and the exact command. Two new flags: `--sync` (runs `uv sync --frozen` first, because the venvs aren't committed) and the `api` helper, which boots `uvicorn`, polls `/health`, fires one real request and always kills the server.
+
+**PASS, real output committed:** 4, 5, 6, 7, 11, 12, 13, 14, 16 (`--quick 8`), 17 (mocked **and** live fallback), 18 (caps + Self-RAG + CRAG), 19.
+**Still owed:** 3, 8, 9, 10 — see the token limit below.
+
+Each invocation truncates only the files it writes (`SEEN` string, not an assoc array — **macOS ships bash 3.2, no `declare -A`**), so re-running one module doesn't wipe the rest and doesn't append duplicates either.
+
+### ⚠️ Groq free tier is 200,000 tokens per DAY, per model
+
+Generating the proof set exhausted it: `429 ... on tokens per day (TPD): Limit 200000, Used 197989`. It is a **daily** budget, not per-minute, so there is no retry that gets around it — the remaining proofs wait for the reset. Plan a full `./verify.sh --paid` as a once-a-day operation, and prefer `--quick 8` over the full 31-case eval suite unless the full number is the point.
+
+### ⚠️ Disk: 3.9 GB free after syncing Modules 8, 9 and 10
+
+Modules 8 and 10 pull `torch` via `sentence-transformers`. Syncing both took the Mac from 5.3 GB to 3.9 GB free. See §6b — this is still the binding constraint on how many venvs can exist at once.
+
 ## 6d. ⚠️ Renaming a folder breaks that project's venv
 
 Discovered via Module 3: venv **console scripts embed the absolute path**. After the colon-free rename, `uv run streamlit` failed with *"Module 3 — Agents .../python3: No such file or directory"* (em-dash) while `uv run python` still worked, because uv resolves the interpreter itself but not the wrapper scripts.

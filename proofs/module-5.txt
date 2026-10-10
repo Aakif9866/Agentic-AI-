@@ -1,0 +1,13 @@
+=== Module 5 — dynamic fan-out
+commit: afa9253
+UTC   : 2026-10-10T12:06:14Z
+dir   : Module 5 - LangGraph Workflow Patterns
+cmd   : uv run python 01_dynamic_fanout_send.py
+----------------------------------------------------------------------
+Python: Why do Python programmers prefer snakes? Because they already know how to handle *indent*ation!
+Docker: Docker: because sometimes you just need a container for your jokes.
+Kubernetes: Kubernetes: because “just add more pods” is the new “just add more RAM.”
+Git: "Git commit—because my code needed a *push* in the right direction!"
+
+[exit 0]
+

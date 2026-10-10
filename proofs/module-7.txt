@@ -1,0 +1,35 @@
+=== Module 7 — tool loop
+commit: afa9253
+UTC   : 2026-10-10T12:06:28Z
+dir   : Module 7 - Observability & Tools
+cmd   : uv run python 01_single_tool.py
+----------------------------------------------------------------------
+Answer: \(17\%\) of 2340 is  
+
+\[
+0.17 \times 2340 = 397.8
+\]
+
+Adding 50 gives  
+
+\[
+397.8 + 50 = 447.8
+\]
+
+**Answer: 447.8**.
+
+Full message trail (this is the tool-calling loop):
+  human: What's 17% of 2340, then add 50?
+  ai: \(17\%\) of 2340 is  
+
+\[
+0.17 \times 2340 = 397.8
+\]
+
+Adding 50 gives  
+
+\[
+397
+
+[exit 0]
+

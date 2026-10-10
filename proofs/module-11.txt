@@ -1,0 +1,44 @@
+=== Module 11 — supervisor
+commit: afa9253
+UTC   : 2026-10-10T12:07:15Z
+dir   : Module 11 - Project - TripMate AI (Multi-Agent Travel Planner)
+cmd   : uv run python main.py
+----------------------------------------------------------------------
+
+Destination : Goa  (3 days)
+Budget      : 15000 ₹
+Route taken : weather -> places -> budget -> assemble
+
+Weather: A traveller to Goa in early October can expect warm, humid weather around 29 °C with light breezes, low rain chances and a hazy sky, typical of the pleasant post‑monsoon period that runs from late September to early November (and again from mid‑January to early February) with temperatures ranging between 23 °C and 32 °C. Pack lightweight, breathable clothing, swimwear, sun protection (hat, sunglasses, sunscreen) and a light rain‑or‑wind jacket plus comfortable shoes for evenings and occasional breezy outings. (via web search — no weather API key set)
+
+Places (3):
+  - Baga Beach: Lively shoreline with golden sand, water‑sports and bustling night‑life—ideal for a full day of sun and fun
+  - Dudhsagar Falls: Majestic tiered waterfall in the Western Ghats, reachable via a scenic trek and offering cool natural pools for a refreshing dip
+  - Basilica of Bom Jesus: UNESCO‑listed 16th‑century baroque church in Old Goa, showcasing Portuguese heritage and stunning interior art for a cultural immersion
+
+Budget breakdown (₹):
+  Stay (3 nights)                 4500
+  Food (3 days)                    900
+  Local transport (scooter rental)     900
+  Dudhsagar Falls entry & safari     550
+  TOTAL                           6850   [OK, limit 15000]
+
+Itinerary: A 3‑day Goa itinerary for early October when temperatures hover around 29 °C with light breezes and low rain. Pack lightweight clothing, swimwear, sun protection and a light jacket. Total budget ~₹6,850 covering 3 nights stay (₹4,500), food (₹900), scooter rental (₹900) and Dudhsagar Falls entry & safari (₹550).
+
+  Day 1
+    morning   : Arrive in Goa, check into accommodation and unwind at Baga Beach – swim, sunbathe and enjoy the sea breeze.
+    afternoon : Lunch at a beach shack, try water‑sports (parasailing or jet‑ski) and explore the Baga market for souvenirs.
+    evening   : Watch the sunset from Baga, dine at a local restaurant serving Goan seafood, then take a relaxed beachside walk.
+
+  Day 2
+    morning   : Early departure for Dudhsagar Falls; join a jeep safari to the waterfall base and enjoy the misty trek.
+    afternoon : Picnic lunch near the falls, then on the return route stop at a spice plantation for a short tour and tea.
+    evening   : Back in Goa, freshen up, have dinner at a nearby eatery in Calangute, and optionally explore the night market.
+
+  Day 3
+    morning   : Visit the Basilica of Bom Jesus in Old Goa, admire its baroque architecture and historic relics.
+    afternoon : Lunch in Panjim, stroll along the Mandovi River promenade, and shop for local crafts.
+    evening   : Pack belongings, enjoy a final sunset at Miramar or Baga, and have a farewell dinner featuring traditional Goan cuisine.
+
+[exit 0]
+

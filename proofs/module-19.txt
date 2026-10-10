@@ -1,0 +1,18 @@
+=== Module 19 — writer/reviewer loop
+commit: afa9253
+UTC   : 2026-10-10T12:07:09Z
+dir   : Module 19 - Project - Self-Correcting Multi-Agent App (Serverless)
+cmd   : uv run python graph.py
+----------------------------------------------------------------------
+verdict    : approved after 1 iteration(s)
+word count : 50 (limit 60)
+buzzwords  : none
+
+--- final draft ---
+Parallel nodes each produce partial results that must be combined into a final answer.  
+A reducer gathers these pieces and merges them safely without losing data.  
+Example: three nodes count visited users, then reducer sums 120, 85, and 95.  
+The sum 300 becomes the correct total across the whole graph.
+
+[exit 0]
+

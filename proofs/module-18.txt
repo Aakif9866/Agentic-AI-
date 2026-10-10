@@ -1,11 +1,64 @@
 === Module 18 — loop caps (pure logic)
-commit: ca9f93b
-UTC   : 2026-10-10T09:46:38Z
+commit: afa9253
+UTC   : 2026-10-10T12:08:48Z
+dir   : Module 18 - Advanced RAG I - Corrective RAG & Self-RAG
 cmd   : uv run python test_caps.py
 ----------------------------------------------------------------------
-Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 5682.07it/s]
 MAX_RETRIES=2  MAX_REWRITE_TRIES=2
 all 11 cap assertions passed - both loops bounded, and independently
+
+[exit 0]
+
+=== Module 18 — Self-RAG, real KB
+commit: afa9253
+UTC   : 2026-10-10T12:08:48Z
+dir   : Module 18 - Advanced RAG I - Corrective RAG & Self-RAG
+cmd   : uv run python self_rag.py
+----------------------------------------------------------------------
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 6544.57it/s]
+============================================================================
+Q: What does a checkpointer do?
+   path    : decide_retrieval=True -> retrieve(4 docs) -> grade_relevance=3 -> generate -> is_sup=supported -> is_use=useful
+   caps    : retries=0/2 rewrites=0/2  source=kb
+   A: A checkpointer records the entire graph state after each node (keyed by a thread ID). By doing so it provides persistent conversation memory, lets the system “time‑travel” to earlier checkpoints, and enables recovery after a crash. It is also required for the interrupt mechanism, because the interru
+============================================================================
+Q: What is a reducer and why is it needed?
+   path    : decide_retrieval=True -> retrieve(4 docs) -> grade_relevance=2 -> generate -> is_sup=supported -> is_use=useful
+   caps    : retries=0/2 rewrites=0/2  source=kb
+   A: A reducer is a function (e.g., `operator.add`) that combines the results coming from parallel branches of a graph. It is needed to merge the parallel writes (or other outputs) produced by the dynamically‑created branches back into a single result. 【page 0】
+============================================================================
+Q: What is the capital of Peru?
+   path    : decide_retrieval=False -> direct_answer
+   caps    : retries=0/2 rewrites=0/2  source=parametric
+   A: Lima.
+
+[exit 0]
+
+=== Module 18 — CRAG, real KB
+commit: afa9253
+UTC   : 2026-10-10T12:08:48Z
+dir   : Module 18 - Advanced RAG I - Corrective RAG & Self-RAG
+cmd   : uv run python crag.py
+----------------------------------------------------------------------
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 5904.64it/s]
+============================================================================
+Q: What does a checkpointer do?
+   scores   : [0.3, 0.9, 0.4, 0.0]
+   decision : CORRECT  ->  source: kb
+   A: A checkpointer records the complete state of the graph after each node (using the thread ID as a key). This saved state enables the interrupt function to pause a graph mid‑node, provides conversation memory, allows “time‑travel” to earlier points, and supports recovery after a crash.
+============================================================================
+Q: What is a reducer and why is it needed?
+   scores   : [0.4, 0.5, 0.0, 0.0]
+   decision : AMBIGUOUS  ->  source: kb+web
+   A: A **reducer** is a component or function that combines or “reduces” multiple inputs into a single output.
+
+* In programming, a reducer such as `operator.add` is used to **merge the parallel writes** that occur when several tasks write data at the same time【FROM DOCUMENTS】. It is needed so that the results of those para
+============================================================================
+Q: What is the capital of Peru?
+   scores   : [0.0, 0.0, 0.0, 0.0]
+   decision : INCORRECT  ->  source: web
+   rewritten: What is the capital city of Peru?
+   A: Lima is the capital of Peru.
 
 [exit 0]
 

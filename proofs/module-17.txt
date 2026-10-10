@@ -1,0 +1,98 @@
+=== Module 17 — gateway logic (26 mocked)
+commit: afa9253
+UTC   : 2026-10-10T12:08:44Z
+dir   : Module 17 - LLM Gateway
+cmd   : uv run python test_gateway.py
+----------------------------------------------------------------------
+gateway: groq failed (PermanentProviderError): Error code: 402 Insufficient Balance
+gateway: fell back to gemini after 1 failure(s)
+gateway: groq failed (PermanentProviderError): Error code: 402 Insufficient Balance
+gateway: gemini failed (PermanentProviderError): Error code: 402 Insufficient Balance
+
+[1] failure classification drives whether we bother retrying
+  ok   402 insufficient balance -> permanent
+  ok   401 unauthorized -> permanent
+  ok   404 model not found -> permanent
+  ok   429 rate limit -> transient
+  ok   timeout -> transient
+  ok   unknown -> transient (fail open, keep falling back)
+
+[2] provider order is configuration, and only yields configured providers
+  ok   GATEWAY_ORDER respected
+  ok   unconfigured provider dropped from order
+
+[3] fallback: first provider fails, second answers
+  ok   second provider served the request
+  ok   Result.provider names the winner
+  ok   fell_back flag set
+  ok   both attempts recorded (observable)
+  ok   failed attempt classified permanent
+  ok   providers tried in order
+
+[4] no fallback needed -> single attempt, fell_back False
+  ok   first provider used
+  ok   only one attempt
+
+[5] all providers fail -> raises, and the error names every failure
+  ok   raises when everything fails
+  ok   error mentions both providers
+
+[6] empty order -> permanent error, not a confusing crash
+  ok   empty order raises PermanentProviderError
+  ok   message tells you which env vars to set
+
+[7] structured output picks the right method PER PROVIDER (the point of this module)
+  ok   gemini (native_structured=True) -> method=None
+  ok   groq (native_structured=False) -> method='json_mode'
+  ok   groq prompt gets explicit field-name hint
+  ok   gemini prompt NOT polluted with the workaround hint
+
+[8] application-level spend guard
+  ok   guard trips past MAX_CALLS
+
+[9] status() never leaks a key
+  ok   no key value present in status() output
+
+========================================================
+26 passed, 0 failed  (0 API calls, $0.00)
+
+[exit 0]
+
+=== Module 17 — real fallback, 3 calls
+commit: afa9253
+UTC   : 2026-10-10T12:08:44Z
+dir   : Module 17 - LLM Gateway
+cmd   : uv run python live_check.py
+----------------------------------------------------------------------
+gateway: groq failed (PermanentProviderError): Error code: 401 - {'error': {'message': 'Invalid API Key', 'type': 'invalid_request_error', 'code': 'invalid_api_key'}}
+gateway: fell back to deepseek after 1 failure(s)
+configured providers:
+  yes groq      groq:openai/gpt-oss-120b           native_structured=False
+  yes gemini    google_genai:gemini-3.8-flash      native_structured=True
+  yes deepseek  deepseek:deepseek-chat             native_structured=True
+
+default order: ['groq', 'deepseek', 'gemini']
+
+[1] normal call, default order
+  chat('Reply with exactly: OK')
+    served by : groq
+    path      : groq
+    fell_back : False
+
+[2] forced failure: Groq key invalidated in-process
+  chat(...) with groq broken
+    served by : deepseek
+    path      : groq(Permanent) -> deepseek
+    fell_back : True
+
+[3] structured output, real call
+  structured(Verdict, ...) via groq (needs json_mode)
+    served by : groq
+    path      : groq
+    fell_back : False
+    parsed    : sentiment=positive confidence=95
+
+total real calls made: 4
+
+[exit 0]
+

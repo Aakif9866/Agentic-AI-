@@ -1,0 +1,36 @@
+=== Module 16 — eval suite (first 8 cases)
+commit: afa9253
+UTC   : 2026-10-10T12:07:37Z
+dir   : Module 16 - AI Agent Evaluation
+cmd   : uv run python evals/run_evals.py --quick 8
+----------------------------------------------------------------------
+[ 1/8] ok  tu01  tool_use     answered             2.5s
+[ 2/8] ok  tu02  tool_use     answered             2.5s
+[ 3/8] ok  tu03  tool_use     answered             2.8s
+[ 4/8] ok  tu04  tool_use     answered             2.2s
+[ 5/8] ok  tu05  tool_use     answered             3.7s
+[ 6/8] ok  tu06  tool_use     answered             9.1s
+[ 7/8] ok  tu07  tool_use     answered             8.6s
+[ 8/8] ok  tu08  tool_use     answered            10.5s
+
+==============================================================================
+PER-DIMENSION PASS RATE BY CATEGORY
+==============================================================================
+         answer tool_selection trajectory latency safety  cases
+category                                                       
+tool_use    n/a           100%       100%    100%   100%      8
+
+==============================================================================
+SCORECARD
+==============================================================================
+          checks  passed    rate
+category                        
+tool_use      32      32  100.0%
+
+------------------------------------------------------------------------------
+OVERALL: 32/32 checks passed = 100.0%  (threshold 80%)
+
+RESULT: PASS
+
+[exit 0]
+

@@ -1,0 +1,17 @@
+=== Module 6 — memory + threads
+commit: afa9253
+UTC   : 2026-10-10T12:06:22Z
+dir   : Module 6 - Agentic Chatbot - Memory, Streaming & Threads
+cmd   : uv run python 02_persistent_chatbot.py
+----------------------------------------------------------------------
+Same thread remembers: Your name is Aakif.
+
+Different thread doesn't: I don’t have any information about your name. If you’d like me to address you by a specific name, just let me know!
+
+Latest state holds 4 messages
+Checkpoints saved for this thread: 6
+
+Replayed from an earlier checkpoint: Your name is Aakif.
+
+[exit 0]
+

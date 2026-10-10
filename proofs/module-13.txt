@@ -1,0 +1,24 @@
+=== Module 13 — subgraph alone
+commit: afa9253
+UTC   : 2026-10-10T12:06:40Z
+dir   : Module 13 - LangGraph Subgraphs + Project - AgentWriter AI
+cmd   : uv run python research_subgraph.py
+----------------------------------------------------------------------
+Queries it chose:
+  - LangGraph reducers purpose
+  - why does LangGraph use reducers
+  - LangGraph reducer functionality explanation
+
+Notes:
+
+- Reducers define how a field’s existing value and a node’s new value are combined, preventing blind overwrites of state data.  
+- By merging outputs from multiple agents or nodes, reducers produce a single, coherent result instead of arbitrarily selecting one response.  
+- They keep LangGraph workflows organized and efficient, especially as graphs grow beyond simple linear paths.  
+- Built‑in reducers (e.g., `operator.add`) can automatically append messages, accumulate evidence, or deduplicate items, preserving memory and context.  
+- Custom reducers can be attached to annotated state fields, allowing developers to tailor merge logic for specific use‑cases (e.g., status updates vs. message histories).  
+- Without an explicit reducer, LangGraph defaults to “overwrite,” which can cause lost context, broken RAG pipelines, and fragmented state in enterprise applications.  
+- Reducers act as quiet organizers, consolidating scattered outputs into a unified state that downstream nodes can reliably consume.  
+- They enable scalable multi‑agent systems by ensuring that all contributions are retained and integrated rather than discarded.
+
+[exit 0]
+
