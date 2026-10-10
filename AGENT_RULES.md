@@ -50,7 +50,31 @@ Always verify against the live list before debugging anything else:
 curl https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY"
 ```
 
-Usage: `init_chat_model("groq:openai/gpt-oss-120b")` or `ChatGroq(model="openai/gpt-oss-120b")`.
+Usage: `init_chat_model("groq:openai/gpt-oss-120b")`.
+
+#### `init_chat_model` vs `ChatGroq` — neither is deprecated
+
+Verified on `langchain 1.3.1` / `langchain-groq 1.1.3`:
+
+```
+DeprecationWarnings on call : NONE
+init_chat_model("groq:...") -> langchain_groq.chat_models.ChatGroq
+ChatGroq(model=...)         -> langchain_groq.chat_models.ChatGroq
+IDENTICAL CLASS : True
+```
+
+**`init_chat_model` is a thin factory that imports and returns `ChatGroq`.** Same object, no warning, no deprecation marker. (Its docstring does say "legacy" once — that refers to legacy *OpenAI model names* like `text-davinci`, not to the function.)
+
+| | `init_chat_model("provider:model")` | `ChatGroq(model=...)` |
+|---|---|---|
+| Provider | swappable via one string | hardcoded |
+| Autocomplete on provider kwargs | weaker | better |
+| Needs provider package imported | no | yes |
+| Env-var provider switching | ✅ `CHAT_MODEL=openai:gpt-4o-mini` | ❌ code edit per file |
+
+**This repo standardises on `init_chat_model`** — all 15 code modules use it. The reason is functional, not stylistic: it's what makes `CHAT_MODEL` env-var switching work (see `OpenAI.md`). With `ChatGroq` hardcoded, moving to OpenAI or DeepSeek means editing every file instead of setting one variable.
+
+Use `ChatGroq` directly only when you need a Groq-specific constructor argument that the factory can't pass through.
 
 ### 2. `with_structured_output()` fails on gpt-oss — use `json_mode`
 

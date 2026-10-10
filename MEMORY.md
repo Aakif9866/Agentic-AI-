@@ -41,6 +41,7 @@
 
 ## 2. Non-negotiables (learned the hard way — don't rediscover)
 
+0. **`init_chat_model` is NOT deprecated.** Verified: `init_chat_model("groq:...")` returns the *identical class* as `ChatGroq(model=...)` (`langchain_groq.chat_models.ChatGroq`), with no DeprecationWarning on langchain 1.3.1. It's a thin factory. The repo standardises on `init_chat_model` for a functional reason — it's what makes `CHAT_MODEL` env-var provider switching work. Don't "modernise" it to `ChatGroq`; that would break the OpenAI/DeepSeek path.
 1. **Groq model names rot.** `llama-3.3-70b-versatile` and `mixtral-8x7b-32768` are **dead**. Use `openai/gpt-oss-120b`. Verify first:
    `curl https://api.groq.com/openai/v1/models -H "Authorization: Bearer $GROQ_API_KEY"`
 2. **`with_structured_output(X)` fails on gpt-oss.** Always `method="json_mode"`, with the word *json* in the prompt **and** the exact field names spelled out, or the model invents its own.

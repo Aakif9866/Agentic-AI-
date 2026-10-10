@@ -1,10 +1,10 @@
 from typing import TypedDict
 from dotenv import load_dotenv
-from langchain_groq import ChatGroq
+from langchain.chat_models import init_chat_model
 from langgraph.graph import StateGraph, START, END
 
 load_dotenv()
-llm = ChatGroq(model="openai/gpt-oss-120b", temperature=0)
+llm = init_chat_model("groq:openai/gpt-oss-120b", temperature=0)
 
 
 class BlogState(TypedDict):
