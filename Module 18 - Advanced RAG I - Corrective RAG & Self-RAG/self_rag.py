@@ -12,6 +12,7 @@ Where CRAG asks "are these documents any good?", Self-RAG asks "is my answer
 grounded?" and then "is my answer actually useful?" — two different questions,
 so two independent counters.
 """
+from functools import lru_cache
 from typing import Literal, TypedDict
 
 from dotenv import load_dotenv
@@ -22,7 +23,14 @@ from pydantic import BaseModel
 from kb import retrieve
 
 load_dotenv()
-llm = init_chat_model("groq:openai/gpt-oss-120b", temperature=0)
+
+
+# Built on first use, not at import. langchain_groq raises immediately when
+# GROQ_API_KEY is missing, and test_caps.py imports this module to check the
+# pure routers — which need no key and make no calls.
+@lru_cache(maxsize=1)
+def llm():
+    return init_chat_model("groq:openai/gpt-oss-120b", temperature=0)
 
 MAX_RETRIES = 2        # IsSUP: how many times we'll re-ground an answer
 MAX_REWRITE_TRIES = 2  # IsUSE: how many times we'll re-query
@@ -66,7 +74,7 @@ class SelfRagState(TypedDict):
 
 
 def structured(schema, prompt: str):
-    return llm.with_structured_output(schema, method="json_mode").invoke(prompt)
+    return llm().with_structured_output(schema, method="json_mode").invoke(prompt)
 
 
 def _log(state: SelfRagState, step: str) -> list[str]:
@@ -104,7 +112,7 @@ def route_retrieval(state: SelfRagState) -> Literal["retrieve", "direct_answer"]
 
 
 def direct_answer(state: SelfRagState) -> dict:
-    ans = llm.invoke(
+    ans = llm().invoke(
         f'Answer concisely. If you are not confident, say you do not know.\n\nQ: {state["question"]}'
     ).content
     return {"answer": ans, "use": "useful", "trace": _log(state, "direct_answer")}
@@ -135,7 +143,7 @@ def route_relevance(state: SelfRagState) -> Literal["generate", "no_answer"]:
 
 
 def generate(state: SelfRagState) -> dict:
-    ans = llm.invoke(
+    ans = llm().invoke(
         "Answer using ONLY the context. Cite page numbers shown in the context. "
         "If the context is insufficient, say so plainly.\n\n"
         f'QUESTION: {state["question"]}\n\nCONTEXT:\n' + "\n\n".join(state["relevant"])
@@ -161,7 +169,7 @@ def route_sup(state: SelfRagState) -> Literal["check_use", "revise", "no_answer"
 
 
 def revise(state: SelfRagState) -> dict:
-    ans = llm.invoke(
+    ans = llm().invoke(
         "Your previous answer contained claims the context does not support. Rewrite it so "
         "every claim is traceable to the context. Drop anything unsupported.\n\n"
         f'QUESTION: {state["question"]}\n\nCONTEXT:\n'

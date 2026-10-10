@@ -3,6 +3,7 @@
 Both 01_rag_tool.py and 02_rag_chatbot.py import from here so the tool is
 defined exactly once.
 """
+from functools import lru_cache
 from pathlib import Path
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -10,9 +11,15 @@ from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.tools import tool
 
-# Local, free embeddings — no API key. First run downloads ~90MB.
-EMBEDDINGS = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 DB_PATH = "faiss_db"
+
+
+# Local, free embeddings — no API key. First use downloads ~90MB, so build it
+# on first use, not at import: test_caps.py imports this module for pure
+# routing logic and must not pay for (or depend on) that download.
+@lru_cache(maxsize=1)
+def embeddings() -> HuggingFaceEmbeddings:
+    return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 
 def ingest(pdf_path: str) -> int:
@@ -25,7 +32,7 @@ def ingest(pdf_path: str) -> int:
     chunks = RecursiveCharacterTextSplitter(
         chunk_size=400, chunk_overlap=80
     ).split_documents(docs)
-    FAISS.from_documents(chunks, EMBEDDINGS).save_local(DB_PATH)
+    FAISS.from_documents(chunks, embeddings()).save_local(DB_PATH)
     return len(chunks)
 
 
@@ -34,7 +41,7 @@ def search_docs(query: str) -> str:
     """Search the ingested PDF for passages relevant to the query. Cite page numbers."""
     if not Path(DB_PATH).exists():
         return "No document has been ingested yet."
-    vs = FAISS.load_local(DB_PATH, EMBEDDINGS, allow_dangerous_deserialization=True)
+    vs = FAISS.load_local(DB_PATH, embeddings(), allow_dangerous_deserialization=True)
     hits = vs.similarity_search(query, k=4)
     if not hits:
         return "No relevant passages found."
@@ -51,7 +58,7 @@ def retrieve(query: str, k: int = 4) -> list[str]:
     """
     if not Path(DB_PATH).exists():
         return []
-    vs = FAISS.load_local(DB_PATH, EMBEDDINGS, allow_dangerous_deserialization=True)
+    vs = FAISS.load_local(DB_PATH, embeddings(), allow_dangerous_deserialization=True)
     return [
         f"[page {d.metadata.get('page', '?')}] {d.page_content}"
         for d in vs.similarity_search(query, k=k)
