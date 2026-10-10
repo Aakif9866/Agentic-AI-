@@ -171,6 +171,8 @@ uv run python 01_temperature.py
 
 Put your keys in a `.env` inside the module folder. `.env` is gitignored everywhere — **never commit it.**
 
+> ⚠️ **If a module builds its model client at import, importing it needs a key.** That's fine when you run the module — you have a `.env`. It is not fine for the free CI job, which runs with no secrets at all: it made `tests.yml` fail at Module 18 before a single assertion. Module 18 now builds both clients on first use (`self_rag.llm()`, `kb.embeddings()`), so the pure-logic tests import cleanly. Reproduce CI before trusting it: `env -u GROQ_API_KEY uv run python test_caps.py`.
+
 > ⚠️ **Folder names use ` - `, never `:`** — a colon makes `uv run` fail outright *and* makes `source .venv/bin/activate` silently do nothing (you stay on system Python and get baffling import errors). See [`AGENT_RULES.md`](./AGENT_RULES.md) #5.
 
 ---

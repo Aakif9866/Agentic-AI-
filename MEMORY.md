@@ -1,6 +1,6 @@
 # MEMORY — session handoff
 
-**Purpose:** paste this (plus [`AGENT_RULES.md`](./AGENT_RULES.md)) into a **new chat** so an agent can continue without re-reading the repo or rediscovering anything. Last updated after Module 16.
+**Purpose:** paste this (plus [`AGENT_RULES.md`](./AGENT_RULES.md)) into a **new chat** so an agent can continue without re-reading the repo or rediscovering anything. Last updated 2026-10-10, after fixing the first red CI run (Module 18 import-time client).
 
 ---
 
@@ -48,7 +48,7 @@
 2. **`with_structured_output(X)` fails on gpt-oss.** Always `method="json_mode"`, with the word *json* in the prompt **and** the exact field names spelled out, or the model invents its own.
 3. **`gpt-oss-120b` serialises tool calls.** Needs `qwen/qwen3.8-27b` for genuine parallel calls (Module 7 file 03).
 4. **Never put `:` in a folder name.** Breaks `uv run`, and `source .venv/bin/activate` **silently** fails. All folders use ` - `.
-5. **A module that builds a client at import must call `load_dotenv()` itself.** Imports run before the importer's `load_dotenv()`. Bit Module 10's `tools.py` and Module 14's `guardrails.py`.
+5. **A module that builds a client at import must call `load_dotenv()` itself — and if a key-free test imports it, that client must be lazy.** Imports run before the importer's `load_dotenv()`. Bit Module 10's `tools.py` and Module 14's `guardrails.py`. Then bit CI (2026-10-10): `test_caps.py` imports `self_rag.py`, which called `init_chat_model()` at module level; `langchain_groq` raises on a missing key, so the deliberately secretless `tests.yml` job died *before the first assertion*. It passed locally only because a `.env` was sitting in the folder. Both Module 18 clients are now `@lru_cache` factories — `self_rag.llm()` and `kb.embeddings()` — so importing the module needs no key and no 90MB MiniLM download. **Reproduce CI properly:** `env -u GROQ_API_KEY HF_HUB_OFFLINE=1 uv run python test_caps.py` with `load_dotenv` stubbed out.
 6. **Tools return errors as strings, never raise.** A raise kills the graph.
 7. **Every loop needs `max_iteration` in state AND `recursion_limit` on invoke.**
 8. **Nodes return only changed keys.** Returning whole state breaks reducer merges.
@@ -162,6 +162,8 @@ Disk is still tight. The big remaining items are **outside this repo** and the u
 
 Default CI is free and secretless by design, so it runs on forks and can't bill you. The module-local copies were deleted — GitHub only reads `.github/workflows/` at the repo root.
 
+**CI has no `.env` and no secrets.** Anything `tests.yml` imports must therefore be importable with zero keys — that is the rule the first red run taught (see §2 #5). Before adding a step, run it the way CI will: key unset, no `.env`.
+
 **The secret scan is deliberately strict** (no allowlist). It caught my own dummy `gsk_invalid_...` in `live_check.py`; the fix was renaming the dummy, not weakening the rule.
 
 ## 6d. ⚠️ Renaming a folder breaks that project's venv
@@ -187,6 +189,9 @@ Modules 4–19 were rebuilt after renaming so they were fine; Module 3's preserv
 ## 8. Commit trail
 
 ```
+8f4686c  Fix CI: Module 18 built its Groq client at import (first red run, now green)
+9c36fba  Repair Module 3, move CI to repo root, final MEMORY.md update
+b3b999b  Module 17 complete: multi-provider gateway
 e9f73cc  README: mark Module 16 built
 22dadcf  Module 16 complete: eval harness that found 3 real bugs in Module 14
 2ec64cc  Add OpenAI.md; make Module 10 provider-switchable by env var
