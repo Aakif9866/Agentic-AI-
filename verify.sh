@@ -53,9 +53,17 @@ api() {
     port="$1"; shift
     uv run uvicorn api:app --port "$port" --log-level warning & pid=$!
     trap "kill $pid 2>/dev/null" EXIT
-    for i in $(seq 1 30); do curl -sf "http://127.0.0.1:$port/health" && break; sleep 2; done
+    # Up to 3 minutes: Module 10 loads torch and a FAISS index before it serves.
+    ok=0
+    for i in $(seq 1 90); do
+      if curl -sf "http://127.0.0.1:$port/health"; then ok=1; break; fi
+      sleep 2
+    done
+    [ "$ok" = 1 ] || { echo "/health never answered in 180s - the app did not boot"; exit 1; }
     echo; echo "--- request:"
-    curl -sS --max-time 120 "$@"
+    # --fail-with-body: an HTTP error must fail the check, not just print. Without
+    # this the helper ended on `echo` and reported PASS on a dead server.
+    curl -sS --fail-with-body --max-time 180 "$@" || exit 1
     echo
   ' _ "$port" "$@"
 }
@@ -81,7 +89,10 @@ if [ "$PAID" -eq 1 ]; then
   api 10 "Module 10 - Project - Build Your Own ChatGPT Agent"   "capstone API end to end" 8102 \
           -X POST http://127.0.0.1:8102/chat -H 'content-type: application/json' \
           -d '{"thread_id":"proof","message":"What is 9*9? Use the calculator."}'
-  run 10 "Module 10 - Project - Build Your Own ChatGPT Agent"   "budget guard trips"   uv run python budget_demo.py
+  # Default cap is 12 and the demo only takes 6 turns, so the guard cannot trip
+  # unless the cap is lowered — that env var IS the before/after switch.
+  run 10 "Module 10 - Project - Build Your Own ChatGPT Agent"   "budget guard trips (cap=3)" \
+          env MAX_LLM_CALLS_PER_THREAD=3 uv run python budget_demo.py
   run 11 "Module 11 - Project - TripMate AI (Multi-Agent Travel Planner)" "supervisor" uv run python main.py
   run 12 "Module 12 - MCP (Model Context Protocol)"             "MCP round-trip"       uv run python client.py
   run 13 "Module 13 - LangGraph Subgraphs + Project - AgentWriter AI" "subgraph alone" uv run python research_subgraph.py

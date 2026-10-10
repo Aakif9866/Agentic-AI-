@@ -1,0 +1,20 @@
+=== Module 9 — FastAPI /health + streaming /chat
+commit: afa9253
+UTC   : 2026-10-10T12:23:38Z
+dir   : Module 9 - Deployment (Docker, CI-CD, Render)
+cmd   : bash -c 
+    port="$1"; shift
+    uv run uvicorn api:app --port "$port" --log-level warning & pid=$!
+    trap "kill $pid 2>/dev/null" EXIT
+    for i in $(seq 1 30); do curl -sf "http://127.0.0.1:$port/health" && break; sleep 2; done
+    echo; echo "--- request:"
+    curl -sS --max-time 120 "$@"
+    echo
+   _ 8101 -X POST http://127.0.0.1:8101/chat -H content-type: application/json -d {"thread_id":"proof","message":"In one sentence: what is a checkpointer?"}
+----------------------------------------------------------------------
+{"ok":true}
+--- request:
+A checkpointer is a system component that periodically saves the current state of a process or data (e.g., a database, model training, or simulation) to durable storage so it can be resumed or recovered from that point after a failure.
+
+[exit 0]
+

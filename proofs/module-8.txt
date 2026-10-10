@@ -1,0 +1,15 @@
+=== Module 8 — HITL approve/reject
+commit: 759f27d
+UTC   : 2026-10-10T12:25:04Z
+dir   : Module 8 - RAG & Human-in-the-Loop
+cmd   : uv run python 04_hitl_tool_approval.py
+----------------------------------------------------------------------
+No approval was requested: Sure thing! I can place an order to buy **10 shares of AAPL** for you. 
+
+Would you like me to go ahead and submit this purchase?
+Paused inside the tool, asking: Approve buying 10 shares of AAPL? (yes/no)
+Human said 'no' -> I attempted to place the order for 10 shares of **AAPL**, but the request was declined and the purchase was not executed. Let me know if you’d like to try again, adjust the quantity, or do something e
+
+
+[exit 0]
+

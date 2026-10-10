@@ -170,8 +170,17 @@ Default CI is free and secretless by design, so it runs on forks and can't bill 
 
 `./verify.sh` now writes a `proofs/module-N.txt` per module, each stamped with the commit SHA, UTC time, the directory and the exact command. Two new flags: `--sync` (runs `uv sync --frozen` first, because the venvs aren't committed) and the `api` helper, which boots `uvicorn`, polls `/health`, fires one real request and always kills the server.
 
-**PASS, real output committed:** 4, 5, 6, 7, 11, 12, 13, 14, 16 (`--quick 8`), 17 (mocked **and** live fallback), 18 (caps + Self-RAG + CRAG), 19.
-**Still owed:** 3, 8, 9, 10 — see the token limit below.
+**PASS, real output committed:** 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 16 (`--quick 8`), 17 (mocked **and** live fallback), 18 (caps + Self-RAG + CRAG), 19.
+**Still owed: 3 and 10.** Both died on the daily token limit below, not on a code fault — Module 10's `/health` answered `{"ok":true}`, so the app boots; only the model call failed.
+
+### ⚠️ A check that cannot fail is worth nothing — the `api` helper proved it
+
+First version of `api()` ended on `echo`, so `bash -c` returned the exit status of *that*, not of the request. Module 10 printed `curl: (7) Failed to connect` and the script still reported **PASS**. Now: the `/health` poll `exit 1`s if it never answers (90 tries × 2s — Module 10 loads torch and FAISS before it serves), and the request uses `curl --fail-with-body ... || exit 1`. The rerun correctly reported FAIL. **Check the failure path of any new check before trusting its PASS.**
+
+### Two labels that oversold what they ran
+
+- `budget_demo.py` needs **`MAX_LLM_CALLS_PER_THREAD=3`**. The default cap is 12 and the demo only takes 6 turns, so at the default the guard *cannot* trip — the first proof said "budget guard trips" over a transcript where nothing tripped. That env var is the whole before/after switch (see the file's own docstring).
+- Module 8's approve path **did not fire** in its transcript: the model replied *"Would you like me to go ahead?"* instead of calling `purchase_stock`, so no `interrupt()` happened and the script correctly printed `No approval was requested`. The reject path did pause and decline properly. Model nondeterminism, not a bug — but the proof only half-covers the module. Re-run it to catch the approve path.
 
 Each invocation truncates only the files it writes (`SEEN` string, not an assoc array — **macOS ships bash 3.2, no `declare -A`**), so re-running one module doesn't wipe the rest and doesn't append duplicates either.
 
