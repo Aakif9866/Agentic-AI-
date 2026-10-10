@@ -98,9 +98,9 @@ Look at the output **before** you open the file. Then read [`LEARNPLAN.md`](./LE
 
 | # | Module | You learn | Status |
 |:-:|:--|:--|:-:|
-| 1 | [Agentic AI Foundations](./Module%201%20-%20Agentic%20AI%20Foundations) | LLM → RAG → agents → multi-agent; the ReAct loop | 📖 notes |
-| 2 | [Python Essentials](./Module%202%20-%20Python%20Essentials%20-%20Async%20&%20Pydantic) | `asyncio`, concurrent calls, validated output | 📓 notebooks |
-| 3 | [Agents with LangChain](./Module%203%20-%20Agents%20with%20LangChain%20%28Single%20&%20Multi-Agent%29) | Tool calling the old way, supervisor pattern | 📓 code |
+| 1 | [Agentic AI Foundations](./Module%201%20-%20Agentic%20AI%20Foundations) | LLM → RAG → agents → multi-agent; the ReAct loop | 📖 + NOTES |
+| 2 | [Python Essentials](./Module%202%20-%20Python%20Essentials%20-%20Async%20&%20Pydantic) | `asyncio`, concurrent calls, validated output | 📓 + NOTES |
+| 3 | [Agents with LangChain](./Module%203%20-%20Agents%20with%20LangChain%20%28Single%20&%20Multi-Agent%29) | Tool calling the old way, supervisor pattern | 📓 + NOTES |
 
 ### 🔵 Phase 2 — The Core ⭐
 
@@ -117,7 +117,7 @@ Look at the output **before** you open the file. Then read [`LEARNPLAN.md`](./LE
 | # | Module | You learn | Status |
 |:-:|:--|:--|:-:|
 | 9 | [Deployment](./Module%209%20-%20Deployment%20%28Docker,%20CI-CD,%20Render%29) | FastAPI streaming, Docker *(image verified)*, CI | ✅ built |
-| 10 | [Capstone: ChatGPT Agent](./Module%2010%20-%20Project%20-%20Build%20Your%20Own%20ChatGPT%20Agent) | All of Phase 2 + Streamlit UI, 4 tools | ✅ built |
+| 10 | [Capstone: ChatGPT Agent](./Module%2010%20-%20Project%20-%20Build%20Your%20Own%20ChatGPT%20Agent) | All of Phase 2 + Streamlit UI, 4 tools · [ARCHITECTURE](./Module%2010%20-%20Project%20-%20Build%20Your%20Own%20ChatGPT%20Agent/ARCHITECTURE.md) | ✅ built |
 | 11 | [TripMate AI](./Module%2011%20-%20Project%20-%20TripMate%20AI%20%28Multi-Agent%20Travel%20Planner%29) | Supervisor + 3 specialists, `Command(goto=)` | ✅ built |
 | 12 | [MCP](./Module%2012%20-%20MCP%20%28Model%20Context%20Protocol%29) | One tool server, many clients, async, stdio | ✅ built |
 | 13 | [Subgraphs: AgentWriter](./Module%2013%20-%20LangGraph%20Subgraphs%20+%20Project%20-%20AgentWriter%20AI) | Reusable subgraph + revision loop | ✅ built |
@@ -174,6 +174,7 @@ Put your keys in a `.env` inside the module folder. `.env` is gitignored everywh
 |:--|:--|
 | 🎓 **[LEARNPLAN.md](./LEARNPLAN.md)** | **Now.** How to actually learn this: the run → break → predict loop, how to read a `NOTES.md`, realistic pacing, break-it experiments per module, an error decoder. |
 | 🛠️ **[AGENT_RULES.md](./AGENT_RULES.md)** | When building Modules 17–22. Pinned stack + every pitfall already hit. Paste it *with* a module's README when asking a coding agent to build it. |
+| 🧠 **[MEMORY.md](./MEMORY.md)** | **Starting a fresh chat?** Paste this + `AGENT_RULES.md` and an agent can continue without re-reading the repo: module status, the pitfall list, remaining work prioritised, and the exact checklist for when an OpenAI key arrives. |
 | 🔄 **[OpenAI.md](./OpenAI.md)** | If you have an OpenAI key. Switching provider is one env var; it also *removes* the `json_mode` workaround and the parallel-tool-call limitation. Includes cost warnings and an honest verification table. |
 
 Every built module also has a **`NOTES.md`** written for a beginner — what each file does, why, and a "Gotchas we hit" section at the end. **Read the gotchas twice:** once now, once when you're stuck.
