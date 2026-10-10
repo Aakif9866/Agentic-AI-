@@ -1,0 +1,51 @@
+=== Module 10 — capstone API end to end
+commit: 2d702fd
+UTC   : 2026-10-10T12:53:26Z
+dir   : Module 10 - Project - Build Your Own ChatGPT Agent
+cmd   : bash -c 
+    port="$1"; shift
+    uv run uvicorn api:app --port "$port" --log-level warning & pid=$!
+    trap "kill $pid 2>/dev/null" EXIT
+    # Up to 3 minutes: Module 10 loads torch and a FAISS index before it serves.
+    ok=0
+    for i in $(seq 1 90); do
+      if curl -sf "http://127.0.0.1:$port/health"; then ok=1; break; fi
+      sleep 2
+    done
+    [ "$ok" = 1 ] || { echo "/health never answered in 180s - the app did not boot"; exit 1; }
+    echo; echo "--- request:"
+    # --fail-with-body: an HTTP error must fail the check, not just print. Without
+    # this the helper ended on `echo` and reported PASS on a dead server.
+    curl -sS --fail-with-body --max-time 180 "$@" || exit 1
+    echo
+   _ 8102 -X POST http://127.0.0.1:8102/chat -H content-type: application/json -d {"thread_id":"proof","message":"What is 9*9? Use the calculator."}
+----------------------------------------------------------------------
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 6866.62it/s]
+{"ok":true}
+--- request:
+The result of 9 × 9 is **81**.
+
+[exit 0]
+
+=== Module 10 — budget guard trips (cap=3)
+commit: 2d702fd
+UTC   : 2026-10-10T12:53:26Z
+dir   : Module 10 - Project - Build Your Own ChatGPT Agent
+cmd   : env MAX_LLM_CALLS_PER_THREAD=3 uv run python budget_demo.py
+----------------------------------------------------------------------
+/Users/shaikyasin/anaconda3/lib/python3.12/multiprocessing/resource_tracker.py:254: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 17114.86it/s]
+cap = 3 | thread = budget-b6f297
+
+turn 1: llm_calls=1   answered
+turn 2: llm_calls=2   answered
+turn 3: llm_calls=3   answered
+turn 4: llm_calls=3   REFUSED (no model call spent)
+turn 5: llm_calls=3   REFUSED (no model call spent)
+turn 6: llm_calls=3   REFUSED (no model call spent)
+
+total model calls charged to this thread: 3
+
+[exit 0]
+

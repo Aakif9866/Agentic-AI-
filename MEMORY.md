@@ -170,8 +170,9 @@ Default CI is free and secretless by design, so it runs on forks and can't bill 
 
 `./verify.sh` now writes a `proofs/module-N.txt` per module, each stamped with the commit SHA, UTC time, the directory and the exact command. Two new flags: `--sync` (runs `uv sync --frozen` first, because the venvs aren't committed) and the `api` helper, which boots `uvicorn`, polls `/health`, fires one real request and always kills the server.
 
-**PASS, real output committed:** 4, 5, 6, 7, 8, 9, 11, 12, 13, 14, 16 (`--quick 8`), 17 (mocked **and** live fallback), 18 (caps + Self-RAG + CRAG), 19.
-**Still owed: 3 and 10.** Both died on the daily token limit below, not on a code fault — Module 10's `/health` answered `{"ok":true}`, so the app boots; only the model call failed.
+**PASS, real output committed:** 4, 5, 6, 7, 8, 9, 10 (API **and** budget guard), 11, 12, 13, 14, 16 (`--quick 8`), 17 (mocked **and** live fallback), 18 (caps + Self-RAG + CRAG), 19 — **15 of the 16 built modules.**
+
+**Still owed: Module 3 only.** It is the heaviest single run in the repo (a full multi-agent pipeline, ~2,600 tokens) and the day's budget was down to 5 tokens. Nothing is wrong with the code — the same run passed by hand on 2026-10-10. Re-run `./verify.sh --paid --module 3` first thing after the quota resets, before spending the day's tokens on anything else.
 
 ### ⚠️ A check that cannot fail is worth nothing — the `api` helper proved it
 
@@ -186,7 +187,7 @@ Each invocation truncates only the files it writes (`SEEN` string, not an assoc 
 
 ### ⚠️ Groq free tier is 200,000 tokens per DAY, per model
 
-Generating the proof set exhausted it: `429 ... on tokens per day (TPD): Limit 200000, Used 197989`. It is a **daily** budget, not per-minute, so there is no retry that gets around it — the remaining proofs wait for the reset. Plan a full `./verify.sh --paid` as a once-a-day operation, and prefer `--quick 8` over the full 31-case eval suite unless the full number is the point.
+Generating the proof set exhausted it: `429 ... on tokens per day (TPD): Limit 200000, Used 197989`. It frees up **gradually** rather than all at once — retrying after ~10 minutes got Modules 8, 9 and 10 through, while Module 3 (the biggest single run) still could not fit. Treat the remaining headroom as the scarce thing: run the expensive module FIRST. There is no retry that beats a genuinely spent budget — the remaining proofs wait for the reset. Plan a full `./verify.sh --paid` as a once-a-day operation, and prefer `--quick 8` over the full 31-case eval suite unless the full number is the point.
 
 ### ⚠️ Disk: 3.9 GB free after syncing Modules 8, 9 and 10
 
