@@ -29,7 +29,11 @@ DB_PATH = os.getenv("CHECKPOINT_DB", "chatbot.db")
 # Set high to effectively disable, which is what the pre-fix behaviour was.
 MAX_LLM_CALLS_PER_THREAD = int(os.getenv("MAX_LLM_CALLS_PER_THREAD", "12"))
 
-llm = init_chat_model("groq:openai/gpt-oss-120b").bind_tools(ALL_TOOLS)
+# Provider is configuration, not code. Default stays Groq (free tier); set
+# CHAT_MODEL=openai:gpt-4o-mini to switch. See ../OpenAI.md.
+CHAT_MODEL = os.getenv("CHAT_MODEL", "groq:openai/gpt-oss-120b")
+
+llm = init_chat_model(CHAT_MODEL).bind_tools(ALL_TOOLS)
 
 
 class ChatState(MessagesState):

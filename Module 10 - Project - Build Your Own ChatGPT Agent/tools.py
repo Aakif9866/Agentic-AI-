@@ -14,7 +14,19 @@ from langgraph.types import interrupt
 # than relying on whoever imports this module having done it first.
 load_dotenv()
 
-EMBEDDINGS = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+import os
+
+# Embeddings are swappable too, but note the dimensions differ (MiniLM 384 vs
+# OpenAI 1536), so changing this REQUIRES re-running ingest.py. See ../OpenAI.md.
+EMBED_MODEL = os.getenv("EMBED_MODEL", "sentence-transformers/all-MiniLM-L6-v2")
+
+if EMBED_MODEL.startswith("text-embedding-"):
+    from langchain_openai import OpenAIEmbeddings
+
+    EMBEDDINGS = OpenAIEmbeddings(model=EMBED_MODEL)
+else:
+    EMBEDDINGS = HuggingFaceEmbeddings(model_name=EMBED_MODEL)
+
 DB_PATH = "faiss_db"
 
 # Whitelist instead of a bare eval(): the expression comes from an LLM, which means it
