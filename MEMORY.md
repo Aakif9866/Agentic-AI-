@@ -24,7 +24,10 @@
 | **14 Guardrails** | ✅ verified | `main.py`, `guardrails.py`, `test_guards.py` (5/5), `NOTES.md` |
 | **15 Harness** | ✅ verified | `HARNESS_REVIEW.md`, `NOTES.md` + budget fix landed in Module 10 |
 | **16 Evals** | ✅ verified | `target.py`, `evals/dataset.jsonl` (31), `evals/run_evals.py`, CI yml, `NOTES.md` |
-| 17–22 | 📋 **not built** | `README.md` build spec only, in each folder |
+| **18 CRAG + Self-RAG** | ✅ verified | `crag.py`, `self_rag.py`, `kb.py`, `test_caps.py`, `COMPARISON.md`, `NOTES.md` |
+| **19 Self-correcting app** | ✅ verified | `graph.py`, `api.py`, `metrics.py`+`metrics.json`, Dockerfile (**container run**), `NOTES.md` |
+| **21 FDE case study** | ✅ written | `fde-case-study.md` (§5 deploy is the one open gap), `NOTES.md` |
+| 17, 20, 22 | 📋 **not built** | `README.md` build spec only. 17 needs an OpenAI key to be meaningful; 20 needs Pinecone; 22 needs Neo4j **and** a vision model |
 
 **Docs at root:** `README.md` (beginner roadmap) · `LEARNPLAN.md` (how to study) · `AGENT_RULES.md` (stack + pitfalls) · `OpenAI.md` (provider switch) · this file.
 
@@ -116,7 +119,7 @@ Checklist, in order:
 | 9 | Move both `evals.yml`/`deploy.yml` to **repo root** `.github/workflows/` | low | they don't run where they sit |
 | 10 | Module 10's weak harness rows | low | Verification, Observability, Context trimming, thread deletion — all in `HARNESS_REVIEW.md` §11 |
 
-**Suggested order:** 18 → 19 → 21, then 17/20/22 once keys exist.
+**Done since:** 18, 19, 21. **Remaining:** 17 (needs OpenAI key), 20 (Pinecone), 22 (Neo4j + vision model — check Groq has one first).
 
 ---
 
