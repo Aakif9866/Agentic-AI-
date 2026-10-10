@@ -22,7 +22,9 @@ class ApproveIn(BaseModel):
 
 @app.post("/chat")
 def chat(body: ChatIn):
-    cfg = {"configurable": {"thread_id": body.thread_id}}
+    # recursion_limit was missing entirely before Module 15's audit — a runaway
+    # chat->tools->chat loop had no app-level ceiling.
+    cfg = {"configurable": {"thread_id": body.thread_id}, "recursion_limit": 25}
 
     def token_stream():
         for chunk, _meta in agent.stream(
