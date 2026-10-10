@@ -1,0 +1,50 @@
+# PAID, MANUAL-ONLY. Never runs automatically.
+#
+# The Module 16 suite is ~60 model calls per run. On a free Groq tier that's
+# fine; on a paid provider it is real money, so this is workflow_dispatch only
+# and never triggers on push. See VERIFICATION.md §4 for cost maths.
+name: live evals (paid, manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      quick:
+        description: "Run only the first N cases (0 = all 31)"
+        required: false
+        default: "8"
+      threshold:
+        description: "Fail below this overall pass rate"
+        required: false
+        default: "0.80"
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Refuse to run without a key
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          if [ -z "$GROQ_API_KEY" ]; then
+            echo "::error::GROQ_API_KEY secret is not set (Settings → Secrets → Actions)"
+            exit 1
+          fi
+          echo "key present (value never printed)"
+
+      # Module 16 imports Module 14 from a sibling folder, so the whole repo
+      # must be checked out — not just one module.
+      - name: Module 16 — eval suite
+        working-directory: "Module 16 - AI Agent Evaluation"
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          uv sync --frozen
+          QUICK=""
+          if [ "${{ inputs.quick }}" != "0" ]; then QUICK="--quick ${{ inputs.quick }}"; fi
+          # --pause is higher than local: shared runners hit Groq's rate limits sooner.
+          uv run python evals/run_evals.py --threshold ${{ inputs.threshold }} --pause 1.5 $QUICK

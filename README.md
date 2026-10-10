@@ -10,8 +10,8 @@
 ![uv](https://img.shields.io/badge/uv-managed-DE5FE9?style=for-the-badge)
 ![Groq](https://img.shields.io/badge/Groq-free_tier-F55036?style=for-the-badge)
 
-![Built](https://img.shields.io/badge/Modules_4–19,_21-✅_built_&_verified-2EA043?style=flat-square)
-![Planned](https://img.shields.io/badge/Modules_17,_20,_22-📋_planned-8957E5?style=flat-square)
+![Built](https://img.shields.io/badge/Modules_3–19,_21-✅_built_&_verified-2EA043?style=flat-square)
+![Planned](https://img.shields.io/badge/Modules_20,_22-📋_need_keys-8957E5?style=flat-square)
 ![Every script runs](https://img.shields.io/badge/every_script-actually_run-0969DA?style=flat-square)
 
 </div>
@@ -100,7 +100,7 @@ Look at the output **before** you open the file. Then read [`LEARNPLAN.md`](./LE
 |:-:|:--|:--|:-:|
 | 1 | [Agentic AI Foundations](./Module%201%20-%20Agentic%20AI%20Foundations) | LLM → RAG → agents → multi-agent; the ReAct loop | 📖 + NOTES |
 | 2 | [Python Essentials](./Module%202%20-%20Python%20Essentials%20-%20Async%20&%20Pydantic) | `asyncio`, concurrent calls, validated output | 📓 + NOTES |
-| 3 | [Agents with LangChain](./Module%203%20-%20Agents%20with%20LangChain%20%28Single%20&%20Multi-Agent%29) | Tool calling the old way, supervisor pattern | 📓 + NOTES |
+| 3 | [Agents with LangChain](./Module%203%20-%20Agents%20with%20LangChain%20%28Single%20&%20Multi-Agent%29) | Tool calling, single + multi-agent (LangChain 1.x) | ✅ verified |
 
 ### 🔵 Phase 2 — The Core ⭐
 
@@ -123,13 +123,13 @@ Look at the output **before** you open the file. Then read [`LEARNPLAN.md`](./LE
 | 13 | [Subgraphs: AgentWriter](./Module%2013%20-%20LangGraph%20Subgraphs%20+%20Project%20-%20AgentWriter%20AI) | Reusable subgraph + revision loop | ✅ built |
 | 14 | [Guardrails + Supervisor](./Module%2014%20-%20Guardrails%20+%20Project%20-%20Multi-Agent%20Supervisor%20System) | 4 middleware layers, **5/5 adversarial eval** | ✅ built |
 
-### 🟠 Phase 4 — Production Craft *(15, 16, 18, 19, 21 built; 17, 20, 22 planned — each folder has a full build spec)*
+### 🟠 Phase 4 — Production Craft *(15–19 and 21 built; 20 and 22 need Pinecone / Neo4j credentials)*
 
 | # | Module | You learn | Status |
 |:-:|:--|:--|:-:|
 | 15 | [Harness & Loop Engineering](./Module%2015%20-%20Harness%20&%20Loop%20Engineering) | Audit 8 rows, fix the weakest in code | ✅ built |
 | 16 | [Agent Evaluation](./Module%2016%20-%20AI%20Agent%20Evaluation) | 31 evals, 5 dimensions, LLM-as-judge, CI gate | ✅ built |
-| 17 | [LLM Gateway](./Module%2017%20-%20LLM%20Gateway) | LiteLLM fallbacks + cost tracking | 📋 plan |
+| 17 | [LLM Gateway](./Module%2017%20-%20LLM%20Gateway) | Groq + DeepSeek + Gemini, verified fallback | ✅ built |
 | 18 | [Advanced RAG I](./Module%2018%20-%20Advanced%20RAG%20I%20-%20Corrective%20RAG%20&%20Self-RAG) | CRAG + Self-RAG, compared side by side | ✅ built |
 | 19 | [Self-Correcting App](./Module%2019%20-%20Project%20-%20Self-Correcting%20Multi-Agent%20App%20%28Serverless%29) | Writer/reviewer loop, container verified | ✅ built |
 | 20 | [Advanced RAG II](./Module%2020%20-%20Advanced%20RAG%20II%20-%20Agentic%20RAG) | Routing RAG on hosted Pinecone | 📋 plan |

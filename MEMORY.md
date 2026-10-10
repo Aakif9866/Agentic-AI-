@@ -10,7 +10,7 @@
 |---|---|---|
 | 1 Foundations | 📖 theory | `info.txt`, `NOTES.md` |
 | 2 Python Essentials | 📓 notebooks | `async.ipynb`, `pydantic.ipynb`, `NOTES.md` |
-| 3 LangChain Agents | ⚠️ legacy | 2 uv projects, `NOTES.md`. **Most bit-rotten module** — may not run |
+| **3 LangChain Agents** | ✅ verified | 2 uv projects + `NOTES.md`. **Not rotten after all** — already on LangChain 1.x (`create_agent`, `init_chat_model`, `langchain-tavily`). Multi-Agent pipeline runs end to end; both Streamlit apps boot (HTTP 200) |
 | **4 LangGraph Fundamentals** | ✅ verified | 6 files in `project/` + `NOTES.md` |
 | **5 Workflow Patterns** | ✅ verified | 5 files + `NOTES.md` |
 | **6 Memory/Streaming/Threads** | ✅ verified | 5 files + `NOTES.md` |
@@ -124,7 +124,7 @@ Checklist, in order:
 | 6 | **Module 22** GraphRAG + Multimodal | **high** | needs Neo4j Aura **and** a vision model — **check Groq has one before starting**; likely blocked without OpenAI/Gemini |
 | 7 | `ARCHITECTURE.md` for Modules 9, 14, 11 | low | Module 10's is the template |
 | 8 | `NOTES.md` for Modules 17–22 | — | write as each is built |
-| 9 | Move both `evals.yml`/`deploy.yml` to **repo root** `.github/workflows/` | low | they don't run where they sit |
+| ~~9~~ | ~~Move CI workflows to repo root~~ | — | ✅ **done** — see §6c |
 | 10 | Module 10's weak harness rows | low | Verification, Observability, Context trimming, thread deletion — all in `HARNESS_REVIEW.md` §11 |
 
 **Keys now configured:** Groq ✅, DeepSeek ✅ (was 402, now topped up ~$2), Gemini ✅. Still missing: `PINECONE_API_KEY` (M20), `NEO4J_*` (M22).
@@ -133,7 +133,7 @@ Checklist, in order:
 
 **Budget: ~₹500/month.** Default gateway order `groq,deepseek,gemini` = free, cheapest paid, then most capable. Mocked tests cost nothing; live checks are deliberately 4 calls.
 
-**Done since:** 17, 18, 19, 21. **Remaining:** 17 (needs OpenAI key), 20 (Pinecone), 22 (Neo4j + vision model — check Groq has one first).
+**Done since:** 17, 18, 19, 21, plus Module 3 repaired and CI moved to the repo root. **Remaining: 20 (needs `PINECONE_API_KEY`) and 22 (needs `NEO4J_*`; Gemini unblocks its vision half).** **Remaining:** 17 (needs OpenAI key), 20 (Pinecone), 22 (Neo4j + vision model — check Groq has one first).
 
 ---
 
@@ -151,6 +151,26 @@ cd "Module 8 - RAG & Human-in-the-Loop" && uv sync          # ~960MB, slow first
 ```
 
 Disk is still tight. The big remaining items are **outside this repo** and the user's call: `~/Library/Caches` (13 GB), `~/Downloads` (3.1 GB), `~/Documents` (50 GB), `~/anaconda3` (4.9 GB), Docker's data (~5.3 GB).
+
+## 6c. CI workflows (now at the repo root, so they actually run)
+
+| Workflow | Trigger | Needs secrets? | Cost |
+|---|---|---|---|
+| `tests.yml` | **every push + PR** | ❌ none | **$0** — M17 gateway (26 mocked), M18 caps (11), M4 graph, plus a secret scan |
+| `live-evals.yml` | **manual only** (`workflow_dispatch`) | `GROQ_API_KEY` | ~60 calls at `--quick 0`; defaults to `--quick 8` |
+| `docker-build.yml` | push to M9/M19 paths | none to *build* | $0; starting a container is manual-only |
+
+Default CI is free and secretless by design, so it runs on forks and can't bill you. The module-local copies were deleted — GitHub only reads `.github/workflows/` at the repo root.
+
+**The secret scan is deliberately strict** (no allowlist). It caught my own dummy `gsk_invalid_...` in `live_check.py`; the fix was renaming the dummy, not weakening the rule.
+
+## 6d. ⚠️ Renaming a folder breaks that project's venv
+
+Discovered via Module 3: venv **console scripts embed the absolute path**. After the colon-free rename, `uv run streamlit` failed with *"Module 3 — Agents .../python3: No such file or directory"* (em-dash) while `uv run python` still worked, because uv resolves the interpreter itself but not the wrapper scripts.
+
+Modules 4–19 were rebuilt after renaming so they were fine; Module 3's preserved venvs kept the stale paths.
+
+**If you rename a project folder, run `uv sync` in it.** A byte-level path rewrite is *not* a safe shortcut: I tried it and corrupted 2,769 `.pyc` files, because the em-dash is 3 bytes and the hyphen is 1, which breaks length-prefixed bytecode strings (`UnicodeDecodeError: invalid continuation byte`). Recovered by deleting all `__pycache__` — `.pyc` is pure cache and regenerates.
 
 ## 7. Working agreements that held up
 

@@ -51,7 +51,7 @@ if __name__ == "__main__":
     #    billing tokens, so this costs only the successful fallback call.
     print("\n[2] forced failure: Groq key invalidated in-process")
     real = os.environ.get("GROQ_API_KEY", "")
-    os.environ["GROQ_API_KEY"] = "gsk_invalid_key_for_fallback_test"
+    os.environ["GROQ_API_KEY"] = "not-a-real-key-forces-401"  # deliberately NOT key-shaped, so the CI secret scan stays strict
     try:
         line("chat(...) with groq broken", gw.chat("Reply with exactly: OK",
                                                    order=["groq", "deepseek"]))

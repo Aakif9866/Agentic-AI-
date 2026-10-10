@@ -1,7 +1,7 @@
 # Project context: LangChain agents with uv (macOS)
 
 Portable context for AI-agent projects. Reference project:
-`/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 — Agents with LangChain (Single & Multi-Agent)/Single AI Agent System`
+`/Users/shaikyasin/Documents/AI/courses/Agentic AI course (FCC)/Module 3 - Agents with LangChain (Single & Multi-Agent)/Single AI Agent System`
 (see `project/code.ipynb`, `project/app.py`, `steps.docx` there).
 
 ## How I like to work

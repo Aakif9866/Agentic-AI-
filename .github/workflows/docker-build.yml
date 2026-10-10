@@ -1,0 +1,57 @@
+# Builds the deployable images. Building needs NO API key, so this runs
+# automatically. Actually STARTING a container needs a key (the app constructs
+# its model at import), so the smoke run is manual-only.
+name: docker build
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Module 9 - Deployment (Docker, CI-CD, Render)/**"
+      - "Module 19 - Project - Self-Correcting Multi-Agent App (Serverless)/**"
+      - ".github/workflows/docker-build.yml"
+  workflow_dispatch:
+    inputs:
+      smoke:
+        description: "Also start the container and poll /health (needs GROQ_API_KEY)"
+        required: false
+        default: "false"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - dir: "Module 9 - Deployment (Docker, CI-CD, Render)"
+            tag: agentic-chatbot:ci
+          - dir: "Module 19 - Project - Self-Correcting Multi-Agent App (Serverless)"
+            tag: self-correcting:ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build ${{ matrix.tag }}
+        working-directory: ${{ matrix.dir }}
+        run: docker build -t ${{ matrix.tag }} .
+
+      - name: Smoke test (manual runs only)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.smoke == 'true' }}
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          if [ -z "$GROQ_API_KEY" ]; then
+            echo "::error::smoke test needs the GROQ_API_KEY secret"; exit 1
+          fi
+          docker run -d -p 8000:8000 -e GROQ_API_KEY="$GROQ_API_KEY" \
+            --name app ${{ matrix.tag }}
+          # Retry loop beats a fixed sleep: containers don't boot predictably.
+          for i in $(seq 1 15); do
+            curl -sf http://localhost:8000/health && break
+            echo "waiting ($i)..."; sleep 2
+          done
+          curl -sf http://localhost:8000/health
+
+      - name: Container logs on failure
+        if: failure()
+        run: docker logs app || true

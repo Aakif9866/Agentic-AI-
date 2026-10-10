@@ -1,0 +1,52 @@
+# Default CI gate. Runs on every push and PR.
+#
+# Deliberately requires NO secrets and makes NO paid API calls, so it can run
+# on forks and can't cost money. Live, billed checks live in live-evals.yml
+# and are manual-only.
+name: tests (free)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  free-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      # --- Module 17: gateway logic, fully mocked (26 assertions, 0 API calls)
+      - name: Module 17 — gateway tests
+        working-directory: "Module 17 - LLM Gateway"
+        run: |
+          uv sync --frozen
+          uv run python test_gateway.py
+
+      # --- Module 18: Self-RAG loop caps, pure routing logic (11 assertions)
+      # Note: this module's venv includes torch via sentence-transformers, so
+      # the sync is slow. It is cached by setup-uv between runs.
+      - name: Module 18 — loop cap tests
+        working-directory: "Module 18 - Advanced RAG I - Corrective RAG & Self-RAG"
+        run: |
+          uv sync --frozen
+          uv run python test_caps.py
+
+      # --- Module 4: pure state/nodes/edges, no model involved
+      - name: Module 4 — graph smoke test
+        working-directory: "Module 4 - LangGraph Fundamentals/project"
+        run: |
+          uv sync --frozen
+          uv run python 01_temperature.py
+
+      # --- Hygiene: no key-shaped strings committed anywhere
+      - name: Secret scan
+        run: |
+          if git grep -nIE '(gsk_|sk-ant-|AIza)[A-Za-z0-9_-]{20,}' -- . ':!*.md'; then
+            echo "::error::a key-shaped string is committed"
+            exit 1
+          fi
+          echo "no key-shaped strings found"
