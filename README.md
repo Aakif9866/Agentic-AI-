@@ -10,8 +10,8 @@
 ![uv](https://img.shields.io/badge/uv-managed-DE5FE9?style=for-the-badge)
 ![Groq](https://img.shields.io/badge/Groq-free_tier-F55036?style=for-the-badge)
 
-![Built](https://img.shields.io/badge/Modules_4–15-✅_built_&_verified-2EA043?style=flat-square)
-![Planned](https://img.shields.io/badge/Modules_16–22-📋_planned-8957E5?style=flat-square)
+![Built](https://img.shields.io/badge/Modules_4–16-✅_built_&_verified-2EA043?style=flat-square)
+![Planned](https://img.shields.io/badge/Modules_17–22-📋_planned-8957E5?style=flat-square)
 ![Every script runs](https://img.shields.io/badge/every_script-actually_run-0969DA?style=flat-square)
 
 </div>
@@ -123,12 +123,12 @@ Look at the output **before** you open the file. Then read [`LEARNPLAN.md`](./LE
 | 13 | [Subgraphs: AgentWriter](./Module%2013%20-%20LangGraph%20Subgraphs%20+%20Project%20-%20AgentWriter%20AI) | Reusable subgraph + revision loop | ✅ built |
 | 14 | [Guardrails + Supervisor](./Module%2014%20-%20Guardrails%20+%20Project%20-%20Multi-Agent%20Supervisor%20System) | 4 middleware layers, **5/5 adversarial eval** | ✅ built |
 
-### 🟠 Phase 4 — Production Craft *(15 built; 16–22 planned, each folder has a full build spec)*
+### 🟠 Phase 4 — Production Craft *(15–16 built; 17–22 planned, each folder has a full build spec)*
 
 | # | Module | You learn | Status |
 |:-:|:--|:--|:-:|
 | 15 | [Harness & Loop Engineering](./Module%2015%20-%20Harness%20&%20Loop%20Engineering) | Audit 8 rows, fix the weakest in code | ✅ built |
-| 16 | [Agent Evaluation](./Module%2016%20-%20AI%20Agent%20Evaluation) | 25+ evals, LLM-as-judge, CI gate | 📋 plan |
+| 16 | [Agent Evaluation](./Module%2016%20-%20AI%20Agent%20Evaluation) | 31 evals, 5 dimensions, LLM-as-judge, CI gate | ✅ built |
 | 17 | [LLM Gateway](./Module%2017%20-%20LLM%20Gateway) | LiteLLM fallbacks + cost tracking | 📋 plan |
 | 18 | [Advanced RAG I](./Module%2018%20-%20Advanced%20RAG%20I%20-%20Corrective%20RAG%20&%20Self-RAG) | CRAG + Self-RAG self-correction | 📋 plan |
 | 19 | [Self-Correcting App](./Module%2019%20-%20Project%20-%20Self-Correcting%20Multi-Agent%20App%20%28Serverless%29) | Writer/reviewer loop, serverless | 📋 plan |
@@ -173,7 +173,7 @@ Put your keys in a `.env` inside the module folder. `.env` is gitignored everywh
 | Doc | Read it when |
 |:--|:--|
 | 🎓 **[LEARNPLAN.md](./LEARNPLAN.md)** | **Now.** How to actually learn this: the run → break → predict loop, how to read a `NOTES.md`, realistic pacing, break-it experiments per module, an error decoder. |
-| 🛠️ **[AGENT_RULES.md](./AGENT_RULES.md)** | When building Modules 16–22. Pinned stack + every pitfall already hit. Paste it *with* a module's README when asking a coding agent to build it. |
+| 🛠️ **[AGENT_RULES.md](./AGENT_RULES.md)** | When building Modules 17–22. Pinned stack + every pitfall already hit. Paste it *with* a module's README when asking a coding agent to build it. |
 | 🔄 **[OpenAI.md](./OpenAI.md)** | If you have an OpenAI key. Switching provider is one env var; it also *removes* the `json_mode` workaround and the parallel-tool-call limitation. Includes cost warnings and an honest verification table. |
 
 Every built module also has a **`NOTES.md`** written for a beginner — what each file does, why, and a "Gotchas we hit" section at the end. **Read the gotchas twice:** once now, once when you're stuck.
