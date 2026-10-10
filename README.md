@@ -57,7 +57,7 @@ Day 3  →  Module 6                 Memory — the one that makes it feel like 
 
 ```bash
 cd "Module 4 - LangGraph Fundamentals/project"
-uv sync
+uv sync          # required: venvs were cleared to reclaim disk
 uv run python 01_temperature.py
 ```
 

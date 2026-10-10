@@ -130,6 +130,21 @@ Checklist, in order:
 
 ---
 
+## 6b. ⚠️ Virtual envs were deleted to reclaim disk (2026-10-10)
+
+The Mac was down to **2.6 GB free of 245 GB**, which was causing swap thrashing. All `.venv` folders for Modules 4–19 were deleted, plus `~/.cache/uv`, `__pycache__`, and two `*:ci` Docker images — about **5.9 GB** reclaimed.
+
+**Consequence: every module needs `uv sync` before it will run again.** Module 3's two venvs were deliberately left alone (pre-existing, and that module is bit-rotten — its venv may be the only environment where it works).
+
+Because the uv cache was also cleared, the *first* `uv sync` re-downloads. Modules 8, 10 and 18 pull `torch`/`sentence-transformers` (~1 GB each, shared once cached), so sync those on a decent connection.
+
+```bash
+cd "Module 4 - LangGraph Fundamentals/project" && uv sync   # ~40MB, fast
+cd "Module 8 - RAG & Human-in-the-Loop" && uv sync          # ~960MB, slow first time
+```
+
+Disk is still tight. The big remaining items are **outside this repo** and the user's call: `~/Library/Caches` (13 GB), `~/Downloads` (3.1 GB), `~/Documents` (50 GB), `~/anaconda3` (4.9 GB), Docker's data (~5.3 GB).
+
 ## 7. Working agreements that held up
 
 - **One module per session.** Build → run → fix → `NOTES.md` → commit → push. Never two in flight.
