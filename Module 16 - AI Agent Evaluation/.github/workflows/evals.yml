@@ -1,0 +1,36 @@
+# NOTE: GitHub only runs workflows found at the REPOSITORY ROOT in
+# .github/workflows/. This copy lives in the module as study material. To
+# actually run it, move it to <repo root>/.github/workflows/evals.yml — the
+# working-directory below is already set for that.
+
+name: Agent evals
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "Module 16 - AI Agent Evaluation"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Sync dependencies
+        run: uv sync --frozen
+
+      - name: Run evals (fails the build below 80%)
+        env:
+          # Set this in repo Settings -> Secrets and variables -> Actions.
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: uv run python evals/run_evals.py --threshold 0.80 --pause 1.5
+
+      # The eval target (Module 14) is imported from a sibling folder, so the
+      # whole repo must be checked out — not just this module. `pause` is higher
+      # than locally because shared CI runners hit Groq's rate limits sooner.

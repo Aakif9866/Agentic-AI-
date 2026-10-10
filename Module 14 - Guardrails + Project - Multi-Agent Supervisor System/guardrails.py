@@ -22,17 +22,27 @@ judge_llm = init_chat_model("groq:openai/gpt-oss-120b", temperature=0)
 # Deterministic patterns. Not a complete defence — the point is that the cheap
 # layer catches the obvious cases before any tokens are spent.
 INJECTION = re.compile(
-    r"ignore (your|all|previous) (instructions|prompt)"
+    # Allow filler words between "ignore" and "instructions": Module 16's eval
+    # caught that the original pattern missed "ignore all previous instructions",
+    # which is the most common phrasing in the wild.
+    r"ignore\s+(?:\w+\s+){0,3}(?:instructions?|prompts?|rules?)"
+    r"|disregard\s+(?:\w+\s+){0,3}(?:instructions?|prompts?|rules?)"
     r"|reveal (your|the) (system )?prompt"
-    r"|disregard (your|the) (rules|instructions)"
+    r"|(?:repeat|print|show|dump|output)\s+(?:\w+\s+){0,5}(?:instructions?|prompt|configuration)"
     r"|you are now|pretend you are",
     re.I,
 )
+# Allowlist of support vocabulary. Module 16's eval found two false positives
+# here — "export button ... click" and "app will not start after the update"
+# were both refused as off-topic. An over-eager allowlist blocks real customers,
+# so widen it whenever an eval case proves a gap.
 ON_TOPIC = re.compile(
-    r"bill|invoice|charge|refund|payment|subscription|price"
-    r"|crash|bug|error|login|password|install|slow|broken|upload"
+    r"bill|invoice|charge|refund|payment|subscription|price|plan|trial"
+    r"|crash|bug|error|login|password|install|slow|broken|upload|download"
+    r"|export|import|button|click|start|launch|open|load|save|sync|freeze"
+    r"|update|upgrade|version|setting|profile|notification|feature|screen|page"
     r"|human|manager|agent|escalat|supervisor|complain"
-    r"|account|order|cancel",
+    r"|account|order|cancel|app|file|data|support",
     re.I,
 )
 
