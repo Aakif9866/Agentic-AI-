@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "word_limit": 60,
+    "max_iteration": 3,
+    "runs": 6,
+    "approved": 6,
+    "hit_cap": 0,
+    "mean_iterations": 1.17,
+    "iteration_distribution": {
+      "1": 5,
+      "2": 1
+    },
+    "converged_within_3": 6
+  },
+  "runs": [
+    {
+      "topic": "why a reducer is needed when graph nodes run in parallel",
+      "iterations_to_approval": 1,
+      "approved": true,
+      "final_word_count": 45,
+      "buzzwords_in_final": [],
+      "drafts": 1,
+      "seconds": 2.3
+    },
+    {
+      "topic": "what a checkpointer gives you in an agent framework",
+      "iterations_to_approval": 2,
+      "approved": true,
+      "final_word_count": 45,
+      "buzzwords_in_final": [],
+      "drafts": 2,
+      "seconds": 4.9
+    },
+    {
+      "topic": "the business value of AI agents for a mid-sized company",
+      "iterations_to_approval": 1,
+      "approved": true,
+      "final_word_count": 51,
+      "buzzwords_in_final": [],
+      "drafts": 1,
+      "seconds": 2.0
+    },
+    {
+      "topic": "why our agent platform is better than the competition",
+      "iterations_to_approval": 1,
+      "approved": true,
+      "final_word_count": 41,
+      "buzzwords_in_final": [],
+      "drafts": 1,
+      "seconds": 2.1
+    },
+    {
+      "topic": "how human-in-the-loop approval prevents costly mistakes",
+      "iterations_to_approval": 1,
+      "approved": true,
+      "final_word_count": 49,
+      "buzzwords_in_final": [],
+      "drafts": 1,
+      "seconds": 2.2
+    },
+    {
+      "topic": "what makes a developer tool genuinely enjoyable to use",
+      "iterations_to_approval": 1,
+      "approved": true,
+      "final_word_count": 41,
+      "buzzwords_in_final": [],
+      "drafts": 1,
+      "seconds": 2.1
+    }
+  ]
+}
